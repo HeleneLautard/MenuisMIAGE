@@ -33,7 +33,6 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Affaire.findByNumaffaire", query = "SELECT a FROM Affaire a WHERE a.numaffaire = :numaffaire")
     , @NamedQuery(name = "Affaire.findByLieupose", query = "SELECT a FROM Affaire a WHERE a.lieupose = :lieupose")
     , @NamedQuery(name = "Affaire.findByStatut", query = "SELECT a FROM Affaire a WHERE a.statut = :statut")
-    , @NamedQuery(name = "Affaire.findByKeynumcommercial", query = "SELECT a FROM Affaire a WHERE a.keynumcommercial = :keynumcommercial")
     , @NamedQuery(name = "Affaire.findByKeynumcommande", query = "SELECT a FROM Affaire a WHERE a.keynumcommande = :keynumcommande")
     , @NamedQuery(name = "Affaire.findByKeynumposeur", query = "SELECT a FROM Affaire a WHERE a.keynumposeur = :keynumposeur")})
 public class Affaire implements Serializable {
@@ -54,8 +53,6 @@ public class Affaire implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "STATUT")
     private String statut;
-    @Column(name = "KEYNUMCOMMERCIAL")
-    private Integer keynumcommercial;
     @Column(name = "KEYNUMCOMMANDE")
     private Integer keynumcommande;
     @Column(name = "KEYNUMPOSEUR")
@@ -63,6 +60,9 @@ public class Affaire implements Serializable {
     @JoinColumn(name = "CLIENTNUMCLIENT", referencedColumnName = "NUMCLIENT")
     @ManyToOne(optional = false)
     private Client clientnumclient;
+    @JoinColumn(name = "COMMERCIALNUMCOMMERCIAL", referencedColumnName = "NUMCOMMERCIAL")
+    @ManyToOne(optional = false)
+    private Commercial commercialnumcommercial;
 
     public Affaire() {
     }
@@ -101,14 +101,6 @@ public class Affaire implements Serializable {
         this.statut = statut;
     }
 
-    public Integer getKeynumcommercial() {
-        return keynumcommercial;
-    }
-
-    public void setKeynumcommercial(Integer keynumcommercial) {
-        this.keynumcommercial = keynumcommercial;
-    }
-
     public Integer getKeynumcommande() {
         return keynumcommande;
     }
@@ -131,6 +123,14 @@ public class Affaire implements Serializable {
 
     public void setClientnumclient(Client clientnumclient) {
         this.clientnumclient = clientnumclient;
+    }
+
+    public Commercial getCommercialnumcommercial() {
+        return commercialnumcommercial;
+    }
+
+    public void setCommercialnumcommercial(Commercial commercialnumcommercial) {
+        this.commercialnumcommercial = commercialnumcommercial;
     }
 
     @Override
