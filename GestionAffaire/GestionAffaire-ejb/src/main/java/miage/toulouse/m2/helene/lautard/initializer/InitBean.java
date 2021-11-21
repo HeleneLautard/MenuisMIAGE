@@ -8,7 +8,7 @@ package miage.toulouse.m2.helene.lautard.initializer;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import miage.toulouse.m2.helene.lautard.sender.SenderChequesAEncaisser;
+import miage.toulouse.m2.helene.lautard.sender.SenderSecondChequeAEncaisser;
 
 /**
  *
@@ -18,7 +18,7 @@ import miage.toulouse.m2.helene.lautard.sender.SenderChequesAEncaisser;
 @Startup
 public class InitBean {
     
-    SenderChequesAEncaisser sender = new SenderChequesAEncaisser();
+    SenderSecondChequeAEncaisser sender = new SenderSecondChequeAEncaisser();
     
     @PostConstruct
     public void initialiser() {
