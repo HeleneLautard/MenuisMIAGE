@@ -5,6 +5,8 @@
  */
 package miage.toulouse.m2.helene.lautard.sender;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.Connection;
@@ -31,7 +33,7 @@ import javax.naming.NamingException;
     ,
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
 })
-public class SenderAffairesCommandeReceptionnee implements MessageListener {
+public class SenderAffaires implements MessageListener {
     
     Context context = null;
     ConnectionFactory factory = null;
@@ -41,9 +43,27 @@ public class SenderAffairesCommandeReceptionnee implements MessageListener {
     Destination dest = null;
     Session session = null;
     MessageProducer sender = null;
-    String text = "Commande réceptionnée pour affaire N°XXX ";
     
-    public SenderAffairesCommandeReceptionnee() {
+    public SenderAffaires() {
+        try{
+            // create the JNDI initial context.
+            this.context = new InitialContext();
+            // look up the ConnectionFactory
+            this.factory = (ConnectionFactory) context.lookup(factoryName);
+            // look up the Destination
+            this.dest = (Destination) context.lookup(destName);
+            // create the connection
+            this.connection = factory.createConnection();
+            // start the connection, to enable message sends
+            this.connection.start();
+            // create the session
+            this.session = connection.createSession(
+                false, Session.AUTO_ACKNOWLEDGE);
+            // create the sender
+            this.sender = session.createProducer(dest);
+        } catch(JMSException | NamingException exception){
+            exception.printStackTrace();
+        }
     }
     
     @Override
@@ -51,40 +71,30 @@ public class SenderAffairesCommandeReceptionnee implements MessageListener {
         System.out.println("ACK ");
     }
     
-    public void sendMsgCommandeReceptionnee(){
-        try {
-            // create the JNDI initial context.
-            this.context = new InitialContext();
-
-            // look up the ConnectionFactory
-            this.factory = (ConnectionFactory) context.lookup(factoryName);
-
-            // look up the Destination
-            this.dest = (Destination) context.lookup(destName);
-
-            // create the connection
-            this.connection = factory.createConnection();
-            // start the connection, to enable message sends
-            this.connection.start();
-
-            // create the session
-            this.session = connection.createSession(
-                false, Session.AUTO_ACKNOWLEDGE);
-
-            // create the sender
-            this.sender = session.createProducer(dest);
-
-
-            //TODO Change TextMessage to ObjectMessage(Affaire)
-            TextMessage message  = session.createTextMessage();
-            message.setText(text);
-            message.setJMSType("CommandeReceptionnée");
-            sender.send(message);
-            System.out.println("Sent: " + message.getText());
-
-        } catch (JMSException | NamingException exception) {
-            exception.printStackTrace();
-        }
+    
+    public void sendMsgAttenteCommande(){
+        this.sendMsg("AttenteCommande", "Attente de commande de menuiserie pour l'affaire N°XXX");
     }
     
+    public void sendMsgCommandeValidée(){
+        this.sendMsg("CommandeValidée", "Commande de menuiserie Validée pour l'affaire N°XXX"); 
+    }
+    
+    public void sendMsgAttentePose(){
+        this.sendMsg("AttentePose", "Attente de pose de maenuiserie pour l'affaire N°XXX");
+    }
+    
+    private void sendMsg(String jmsType, String textToSend){
+        //TODO Change TextMessage to ObjectMessage(Affaire)
+        TextMessage message;
+        try {
+            message = this.session.createTextMessage();
+            message.setText(textToSend);
+            message.setJMSType(jmsType);
+            sender.send(message);
+            System.out.println("Sent: " + message.getText());
+        } catch (JMSException ex) {
+            Logger.getLogger(SenderAffaires.class.getName()).log(Level.SEVERE, null, ex);
+        }  
+    }
 }
