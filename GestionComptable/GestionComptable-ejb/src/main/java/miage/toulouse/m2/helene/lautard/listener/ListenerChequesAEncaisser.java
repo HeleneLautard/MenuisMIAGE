@@ -28,11 +28,11 @@ public class ListenerChequesAEncaisser implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        System.out.println("Message reçu - chèque à encaisser");
+        System.out.println("Message reçu ");
         if(message instanceof TextMessage){
             TextMessage msg = (TextMessage) message;
             try {
-                System.out.println("Received : " + msg.getText());
+                System.out.println(" \t Received : " + msg.getText());
             } catch (JMSException ex) {
                 Logger.getLogger(ListenerChequesAEncaisser.class.getName()).log(Level.SEVERE, null, ex);
             }
