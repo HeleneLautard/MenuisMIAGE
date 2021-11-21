@@ -10,5 +10,5 @@
         <property name="URL" value="jdbc:derby://localhost:1527/GestionPose"/>
         <property name="driverClass" value="org.apache.derby.jdbc.ClientDriver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:module/GestionPoseDB" object-type="user" pool-name="derby_net_GestionPose_HelenePool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/GestionPoseDB" object-type="user" pool-name="derby_net_GestionPose_HelenePool"/>
 </resources>
