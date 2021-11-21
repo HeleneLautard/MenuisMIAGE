@@ -80,7 +80,7 @@ public class SenderAffairesCommandeReceptionnee implements MessageListener {
             message.setText(text);
             message.setJMSType("CommandeReceptionnée");
             sender.send(message);
-            System.out.println("Sent: " + message.getText());
+            System.out.println("Sent depuis GestionAchat: " + message.getText());
 
         } catch (JMSException | NamingException exception) {
             exception.printStackTrace();

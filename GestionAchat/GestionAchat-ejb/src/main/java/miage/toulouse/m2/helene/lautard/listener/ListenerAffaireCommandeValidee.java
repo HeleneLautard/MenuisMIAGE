@@ -74,7 +74,7 @@ public class ListenerAffaireCommandeValidee implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        System.out.println("Message reçu ... ");
+        System.out.println("Message reçu sur Gestion Achat ");
         if(message instanceof TextMessage){
             TextMessage msg = (TextMessage) message;
             try {
