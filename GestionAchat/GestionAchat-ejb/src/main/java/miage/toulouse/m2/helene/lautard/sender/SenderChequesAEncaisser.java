@@ -37,7 +37,7 @@ public class SenderChequesAEncaisser implements MessageListener {
     int count = 1;
     Session session = null;
     MessageProducer sender = null;
-    String text = "Message N° ";
+    String text = "Message (gestion achat) N° ";
     
     public SenderChequesAEncaisser() {
     }
@@ -99,7 +99,7 @@ public class SenderChequesAEncaisser implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        System.out.println("ACK reçu - file chèque à encaisser");
+        System.out.println("ACK reçu (Gestion Achat)");
         
     }    
 }
