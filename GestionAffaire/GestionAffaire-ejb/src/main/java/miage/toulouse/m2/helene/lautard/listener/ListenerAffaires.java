@@ -76,7 +76,7 @@ public class ListenerAffaires implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        System.out.println("Message reçu ... ");
+        System.out.println("Message reçu sur Gestion Affaire ");
         if(message instanceof TextMessage){
             TextMessage msg = (TextMessage) message;
             try {

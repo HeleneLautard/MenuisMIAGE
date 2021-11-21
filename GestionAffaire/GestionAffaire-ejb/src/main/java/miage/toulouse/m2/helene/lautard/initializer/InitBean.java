@@ -8,6 +8,7 @@ package miage.toulouse.m2.helene.lautard.initializer;
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import miage.toulouse.m2.helene.lautard.sender.SenderAffaires;
 import miage.toulouse.m2.helene.lautard.sender.SenderSecondChequeAEncaisser;
 
 /**
@@ -19,11 +20,15 @@ import miage.toulouse.m2.helene.lautard.sender.SenderSecondChequeAEncaisser;
 public class InitBean {
     
     SenderSecondChequeAEncaisser sender = new SenderSecondChequeAEncaisser();
+    SenderAffaires senderAffaires = new SenderAffaires();
     
     @PostConstruct
     public void initialiser() {
         //this.sender.sendMsgChequesAEncaisser();
-        
+        this.senderAffaires.sendMsgAttenteCommande();
+        this.senderAffaires.sendMsgAttenteCommande();
+        this.senderAffaires.sendMsgAttentePose();
+        this.senderAffaires.sendMsgCommandeValidée();
     }
     
 }

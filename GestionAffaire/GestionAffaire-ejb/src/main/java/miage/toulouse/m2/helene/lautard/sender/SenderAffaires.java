@@ -92,7 +92,7 @@ public class SenderAffaires implements MessageListener {
             message.setText(textToSend);
             message.setJMSType(jmsType);
             sender.send(message);
-            System.out.println("Sent: " + message.getText());
+            System.out.println("Sent depuis GestionAffaire: " + message.getText());
         } catch (JMSException ex) {
             Logger.getLogger(SenderAffaires.class.getName()).log(Level.SEVERE, null, ex);
         }  
