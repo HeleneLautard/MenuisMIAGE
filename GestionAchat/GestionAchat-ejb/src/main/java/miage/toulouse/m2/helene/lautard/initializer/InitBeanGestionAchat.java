@@ -7,15 +7,7 @@ package miage.toulouse.m2.helene.lautard.initializer;
 
 
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.annotation.PostConstruct;
-import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import miage.toulouse.m2.helene.lautard.sender.SenderAffairesCommandeReceptionnee;
@@ -27,7 +19,7 @@ import miage.toulouse.m2.helene.lautard.sender.SenderPremierChequesEncaisser;
  */
 @Singleton
 @Startup
-public class InitBean {
+public class InitBeanGestionAchat {
     
     SenderPremierChequesEncaisser senderCheque = new SenderPremierChequesEncaisser();
     SenderAffairesCommandeReceptionnee senderAffaire = new SenderAffairesCommandeReceptionnee();

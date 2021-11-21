@@ -81,39 +81,11 @@ public class SenderPremierChequesEncaisser implements MessageListener {
             exception.printStackTrace();
         } catch (NamingException exception) {
             exception.printStackTrace();
-        } finally {
-            // close the context
-            if (context != null) {
-                try {
-                    context.close();
-                } catch (NamingException exception) {
-                    exception.printStackTrace();
-                }
-            }
-
-            // close the connection
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (JMSException exception) {
-                    exception.printStackTrace();
-                }
-            }
         }
     }
 
     @Override
     public void onMessage(Message message) {
-        if (message instanceof TextMessage) {
-            TextMessage msg = (TextMessage) message;
-            try {
-                System.out.println("ACK (Gestion Achat) : " + msg.getText());
-            } catch (JMSException ex) {
-                Logger.getLogger(SenderPremierChequesEncaisser.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            System.out.println("Non Text message (Sender Gestion Achat)");
-        }
-
+        //System.out.println("toto");
     }
 }
