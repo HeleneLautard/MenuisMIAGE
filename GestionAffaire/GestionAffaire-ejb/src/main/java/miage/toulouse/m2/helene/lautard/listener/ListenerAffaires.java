@@ -35,7 +35,7 @@ import javax.naming.NamingException;
     ,
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
     ,
-        @ActivationConfigProperty(propertyName = "messageSelector", propertyValue = "JMSType = 'CommandeReceptionnée'")
+        @ActivationConfigProperty(propertyName = "messageSelector", propertyValue = "JMSType IN ('CommandeReceptionnée', 'AttenteCommande', 'PoseEffectuée')")
 })
 public class ListenerAffaires implements MessageListener {
     
@@ -45,7 +45,6 @@ public class ListenerAffaires implements MessageListener {
     private String factoryName = "MenuisMiageConnectionFactory";
     private String destName = "TOPIC_AFFAIRES";
     private Destination dest = null;
-    private int count = 1;
     private Session session = null;
     private MessageConsumer receiver = null;
     
@@ -81,8 +80,7 @@ public class ListenerAffaires implements MessageListener {
         if(message instanceof TextMessage){
             TextMessage msg = (TextMessage) message;
             try {
-                System.out.println(" \t Received : " + msg.getText() + " at " + java.time.LocalDateTime.now());
-                System.out.println("\t Type : " + msg.getJMSType());
+                System.out.println(" \t Received : " + msg.getText() + " (JMS Type : " + msg.getJMSType()+ " at " + java.time.LocalDateTime.now());
             } catch (JMSException ex) {
                 System.err.println("Failed to get message text: " + ex );
             }
