@@ -37,13 +37,14 @@ public class SenderChequesAEncaisser implements MessageListener {
     int count = 1;
     Session session = null;
     MessageProducer sender = null;
-    String text = "Message N° ";
+    String text = "Message (gestion affaire) N° ";
     
     public SenderChequesAEncaisser() {
     }
     
     @Override
     public void onMessage(Message message) {
+        System.out.println("ACK reçu (Gestion Affaire)");
     }
     
     public void sendMsgChequesAEncaisser(){
