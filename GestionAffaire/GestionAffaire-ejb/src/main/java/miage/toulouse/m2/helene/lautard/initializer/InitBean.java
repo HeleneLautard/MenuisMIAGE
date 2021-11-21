@@ -22,7 +22,7 @@ public class InitBean {
     
     @PostConstruct
     public void initialiser() {
-        this.sender.sendMsgChequesAEncaisser();
+        //this.sender.sendMsgChequesAEncaisser();
         
     }
     
