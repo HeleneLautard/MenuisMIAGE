@@ -34,7 +34,7 @@ import javax.naming.NamingException;
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
 })
 public class SenderAffaires implements MessageListener {
-    
+
     Context context = null;
     ConnectionFactory factory = null;
     Connection connection = null;
@@ -43,9 +43,9 @@ public class SenderAffaires implements MessageListener {
     Destination dest = null;
     Session session = null;
     MessageProducer sender = null;
-    
+
     public SenderAffaires() {
-        try{
+        try {
             // create the JNDI initial context.
             this.context = new InitialContext();
             // look up the ConnectionFactory
@@ -58,33 +58,39 @@ public class SenderAffaires implements MessageListener {
             this.connection.start();
             // create the session
             this.session = connection.createSession(
-                false, Session.AUTO_ACKNOWLEDGE);
+                    false, Session.AUTO_ACKNOWLEDGE);
             // create the sender
             this.sender = session.createProducer(dest);
-        } catch(JMSException | NamingException exception){
+        } catch (JMSException | NamingException exception) {
             exception.printStackTrace();
         }
     }
-    
+
     @Override
     public void onMessage(Message message) {
         System.out.println("ACK ");
     }
-    
-    
-    public void sendMsgAttenteCommande(){
-        this.sendMsg("AttenteCommande", "Attente de commande de menuiserie pour l'affaire N°XXX");
+
+    /**
+     * Envoyer notification commande validée
+     */
+    public void sendMsgCommandeValidée() {
+        this.sendMsg("CommandeValidée", "Commande de menuiserie Validée pour l'affaire N°XXX");
     }
-    
-    public void sendMsgCommandeValidée(){
-        this.sendMsg("CommandeValidée", "Commande de menuiserie Validée pour l'affaire N°XXX"); 
-    }
-    
-    public void sendMsgAttentePose(){
+
+    /**
+     * Envoyer notification Attente de pose
+     */
+    public void sendMsgAttentePose() {
         this.sendMsg("AttentePose", "Attente de pose de maenuiserie pour l'affaire N°XXX");
     }
-    
-    private void sendMsg(String jmsType, String textToSend){
+
+    /**
+     * Methode générique pour l'envoie de message sur le topic affaire
+     * @param jmsType JMSType appliqué au message envoyé
+     * @param textToSend Text à envoyer dans le textMessage
+     */
+    private void sendMsg(String jmsType, String textToSend) {
         //TODO Change TextMessage to ObjectMessage(Affaire)
         TextMessage message;
         try {
@@ -95,6 +101,6 @@ public class SenderAffaires implements MessageListener {
             System.out.println("Sent depuis GestionAffaire: " + message.getText());
         } catch (JMSException ex) {
             Logger.getLogger(SenderAffaires.class.getName()).log(Level.SEVERE, null, ex);
-        }  
+        }
     }
 }

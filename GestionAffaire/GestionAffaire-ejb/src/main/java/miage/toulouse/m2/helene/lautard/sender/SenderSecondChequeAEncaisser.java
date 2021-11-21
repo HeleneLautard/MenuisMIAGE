@@ -29,7 +29,7 @@ import javax.naming.NamingException;
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
 })
 public class SenderSecondChequeAEncaisser implements MessageListener {
-    
+
     InitialContext context = null;
     ConnectionFactory factory = null;
     Connection connection = null;
@@ -40,13 +40,13 @@ public class SenderSecondChequeAEncaisser implements MessageListener {
     Session session = null;
     MessageProducer sender = null;
     String text = "Message (gestion affaire) N° ";
-    
+
     public SenderSecondChequeAEncaisser() {
     }
-    
+
     @Override
     public void onMessage(Message message) {
-        if(message instanceof TextMessage){
+        if (message instanceof TextMessage) {
             TextMessage msg = (TextMessage) message;
             try {
                 System.out.println("ACK (Gestion Affaire) : " + msg.getText());
@@ -54,11 +54,11 @@ public class SenderSecondChequeAEncaisser implements MessageListener {
                 Logger.getLogger(SenderSecondChequeAEncaisser.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {
-            System.out.println("Non TextMessage (Sender Gestion Affaire)" );
+            System.out.println("Non TextMessage (Sender Gestion Affaire)");
         }
     }
-    
-    public void sendMsgChequesAEncaisser(){
+
+    public void sendMsgChequesAEncaisser() {
         try {
             // create the JNDI initial context.
             context = new InitialContext();
@@ -74,7 +74,7 @@ public class SenderSecondChequeAEncaisser implements MessageListener {
 
             // create the session
             session = connection.createSession(
-                false, Session.AUTO_ACKNOWLEDGE);
+                    false, Session.AUTO_ACKNOWLEDGE);
 
             // create the sender
             sender = session.createProducer(dest);
@@ -83,7 +83,7 @@ public class SenderSecondChequeAEncaisser implements MessageListener {
             connection.start();
 
             for (int i = 0; i < count; ++i) {
-                TextMessage message  = session.createTextMessage();
+                TextMessage message = session.createTextMessage();
                 message.setText(text + (i + 1));
                 sender.send(message);
                 System.out.println("Sent: " + message.getText());

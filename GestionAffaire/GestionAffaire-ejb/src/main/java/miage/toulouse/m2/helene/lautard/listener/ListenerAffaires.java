@@ -5,8 +5,6 @@
  */
 package miage.toulouse.m2.helene.lautard.listener;
 
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
@@ -35,10 +33,10 @@ import javax.naming.NamingException;
     ,
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
     ,
-        @ActivationConfigProperty(propertyName = "messageSelector", propertyValue = "JMSType IN ('CommandeReceptionnée', 'AttenteCommande', 'PoseEffectuée')")
+        @ActivationConfigProperty(propertyName = "messageSelector", propertyValue = "JMSType IN ('CommandeReceptionnée', 'PoseEffectuée')")
 })
 public class ListenerAffaires implements MessageListener {
-    
+
     private Context context = null;
     private ConnectionFactory factory = null;
     private Connection connection = null;
@@ -47,46 +45,45 @@ public class ListenerAffaires implements MessageListener {
     private Destination dest = null;
     private Session session = null;
     private MessageConsumer receiver = null;
-    
+
     public ListenerAffaires() {
         try {
-	            // create the JNDI initial context
-	            this.context = new InitialContext();
+            // create the JNDI initial context
+            this.context = new InitialContext();
 
-	            // look up the ConnectionFactory
-	            this.factory = (ConnectionFactory) context.lookup(this.factoryName);
+            // look up the ConnectionFactory
+            this.factory = (ConnectionFactory) context.lookup(this.factoryName);
 
-	            // look up the Destination
-	            this.dest = (Destination) this.context.lookup(this.destName);
+            // look up the Destination
+            this.dest = (Destination) this.context.lookup(this.destName);
 
-	            // create the connection
-	            this.connection = this.factory.createConnection();
+            // create the connection
+            this.connection = this.factory.createConnection();
 
-	            // create the session
-	            this.session = this.connection.createSession(
-	                false, Session.AUTO_ACKNOWLEDGE);
-	            
-	            
-	        } catch (JMSException exception) {
-	            exception.printStackTrace();
-	        } catch (NamingException ex) {
+            // create the session
+            this.session = this.connection.createSession(
+                    false, Session.AUTO_ACKNOWLEDGE);
+
+        } catch (JMSException exception) {
+            exception.printStackTrace();
+        } catch (NamingException ex) {
             Logger.getLogger(ListenerAffaires.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        }
     }
-    
+
     @Override
     public void onMessage(Message message) {
         System.out.println("Message reçu sur Gestion Affaire ");
-        if(message instanceof TextMessage){
+        if (message instanceof TextMessage) {
             TextMessage msg = (TextMessage) message;
             try {
-                System.out.println(" \t Received : " + msg.getText() + " (JMS Type : " + msg.getJMSType()+ " at " + java.time.LocalDateTime.now());
+                System.out.println(" \t Received : " + msg.getText() + " (JMS Type : " + msg.getJMSType() + " at " + java.time.LocalDateTime.now());
             } catch (JMSException ex) {
-                System.err.println("Failed to get message text: " + ex );
+                System.err.println("Failed to get message text: " + ex);
             }
         } else if (message != null) {
             System.out.println("Non Text Message Received");
         }
     }
-    
+
 }
