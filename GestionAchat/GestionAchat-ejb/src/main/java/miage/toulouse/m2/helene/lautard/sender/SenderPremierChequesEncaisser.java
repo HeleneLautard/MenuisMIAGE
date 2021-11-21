@@ -44,7 +44,7 @@ public class SenderPremierChequesEncaisser implements MessageListener {
     public SenderPremierChequesEncaisser() {
     }
     
-    public void sendMsgChequesAEncaisser(){
+    public void sendMsgEncaisserCheque1(){
         try {
             // create the JNDI initial context.
             context = new InitialContext();
