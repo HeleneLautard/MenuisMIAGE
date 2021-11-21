@@ -4,3 +4,12 @@
 /GestionComptable/GestionComptable-ejb/target/
 /GestionComptable/GestionComptable-web/target/
 /GestionComptable/GestionComptable-ear/target/
+/GestionAffaire/GestionAffaire-ejb/target/
+/GestionAffaire/GestionAffaire-web/target/
+/GestionAffaire/GestionAffaire-ear/target/
+/GestionPlanning/GestionPlanning-ejb/target/
+/GestionPlanning/GestionPlanning-web/target/
+/GestionPlanning/GestionPlanning-ear/target/
+/GestionPose/GestionPose-ejb/target/
+/GestionPose/GestionPose-web/target/
+/GestionPose/GestionPose-ear/target/
