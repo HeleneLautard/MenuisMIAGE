@@ -46,16 +46,7 @@ public class SenderSecondChequeAEncaisser implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        if (message instanceof TextMessage) {
-            TextMessage msg = (TextMessage) message;
-            try {
-                System.out.println("ACK (Gestion Affaire) : " + msg.getText());
-            } catch (JMSException ex) {
-                Logger.getLogger(SenderSecondChequeAEncaisser.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        } else {
-            System.out.println("Non TextMessage (Sender Gestion Affaire)");
-        }
+        //System.out.println("coucou");
     }
 
     public void sendMsgChequesAEncaisser() {
@@ -92,24 +83,6 @@ public class SenderSecondChequeAEncaisser implements MessageListener {
             exception.printStackTrace();
         } catch (NamingException exception) {
             exception.printStackTrace();
-        } finally {
-            // close the context
-            if (context != null) {
-                try {
-                    context.close();
-                } catch (NamingException exception) {
-                    exception.printStackTrace();
-                }
-            }
-
-            // close the connection
-            if (connection != null) {
-                try {
-                    connection.close();
-                } catch (JMSException exception) {
-                    exception.printStackTrace();
-                }
-            }
         }
     }
 }

@@ -17,7 +17,7 @@ import miage.toulouse.m2.helene.lautard.sender.SenderSecondChequeAEncaisser;
  */
 @Singleton
 @Startup
-public class InitBean {
+public class InitBeanGestionAffaire {
     
     SenderSecondChequeAEncaisser sender = new SenderSecondChequeAEncaisser();
     SenderAffaires senderAffaires = new SenderAffaires();
@@ -25,8 +25,6 @@ public class InitBean {
     @PostConstruct
     public void initialiser() {
         //this.sender.sendMsgChequesAEncaisser();
-        this.senderAffaires.sendMsgAttenteCommande();
-        this.senderAffaires.sendMsgAttenteCommande();
         this.senderAffaires.sendMsgAttentePose();
         this.senderAffaires.sendMsgCommandeValidée();
     }
