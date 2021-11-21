@@ -32,7 +32,7 @@ public class ListenerChequesAEncaisser implements MessageListener {
         if(message instanceof TextMessage){
             TextMessage msg = (TextMessage) message;
             try {
-                System.out.println(" \t Received : " + msg.getText());
+                System.out.println(" \t Received : " + msg.getText() + " at " + java.time.LocalDateTime.now());
             } catch (JMSException ex) {
                 Logger.getLogger(ListenerChequesAEncaisser.class.getName()).log(Level.SEVERE, null, ex);
             }
