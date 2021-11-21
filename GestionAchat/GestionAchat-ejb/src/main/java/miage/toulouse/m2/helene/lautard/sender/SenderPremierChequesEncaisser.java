@@ -5,6 +5,8 @@
  */
 package miage.toulouse.m2.helene.lautard.sender;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
 import javax.ejb.MessageDriven;
 import javax.jms.Connection;
@@ -26,7 +28,7 @@ import javax.naming.NamingException;
 @MessageDriven(mappedName = "QUEUE_CHEQUES_A_ENCAISSER", activationConfig = {
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
 })
-public class SenderChequesAEncaisser implements MessageListener {
+public class SenderPremierChequesEncaisser implements MessageListener {
     
     InitialContext context = null;
     ConnectionFactory factory = null;
@@ -39,7 +41,7 @@ public class SenderChequesAEncaisser implements MessageListener {
     MessageProducer sender = null;
     String text = "Message (gestion achat) N° ";
     
-    public SenderChequesAEncaisser() {
+    public SenderPremierChequesEncaisser() {
     }
     
     public void sendMsgChequesAEncaisser(){
@@ -99,7 +101,17 @@ public class SenderChequesAEncaisser implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        System.out.println("ACK reçu (Gestion Achat)");
+        if(message instanceof TextMessage){
+            TextMessage msg = (TextMessage) message;
+            try {
+                System.out.println("ACK (Gestion Achat) : " + msg.getText());
+            } catch (JMSException ex) {
+                Logger.getLogger(SenderPremierChequesEncaisser.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        } else {
+            System.out.println("Non Text message (Sender Gestion Achat)");
+        }
+        
         
     }    
 }

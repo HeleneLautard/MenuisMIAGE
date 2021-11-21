@@ -18,7 +18,7 @@ import javax.annotation.PostConstruct;
 import javax.ejb.EJB;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
-import miage.toulouse.m2.helene.lautard.sender.SenderChequesAEncaisser;
+import miage.toulouse.m2.helene.lautard.sender.SenderPremierChequesEncaisser;
 
 /**
  *
@@ -28,7 +28,7 @@ import miage.toulouse.m2.helene.lautard.sender.SenderChequesAEncaisser;
 @Startup
 public class InitBean {
     
-    SenderChequesAEncaisser sender = new SenderChequesAEncaisser();
+    SenderPremierChequesEncaisser sender = new SenderPremierChequesEncaisser();
     
     @PostConstruct
     public void initialiser() {
