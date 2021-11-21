@@ -36,7 +36,7 @@ import javax.naming.NamingException;
         @ActivationConfigProperty(propertyName = "messageSelector", propertyValue = "JMSType IN ('CommandeValidée')")
 })
 public class ListenerAffaireCommandeValidee implements MessageListener {
-    
+
     private Context context = null;
     private ConnectionFactory factory = null;
     private Connection connection = null;
@@ -45,46 +45,45 @@ public class ListenerAffaireCommandeValidee implements MessageListener {
     private Destination dest = null;
     private Session session = null;
     private MessageConsumer receiver = null;
-    
+
     public ListenerAffaireCommandeValidee() {
-         try {
-	            // create the JNDI initial context
-	            this.context = new InitialContext();
+        try {
+            // create the JNDI initial context
+            this.context = new InitialContext();
 
-	            // look up the ConnectionFactory
-	            this.factory = (ConnectionFactory) context.lookup(this.factoryName);
+            // look up the ConnectionFactory
+            this.factory = (ConnectionFactory) context.lookup(this.factoryName);
 
-	            // look up the Destination
-	            this.dest = (Destination) this.context.lookup(this.destName);
+            // look up the Destination
+            this.dest = (Destination) this.context.lookup(this.destName);
 
-	            // create the connection
-	            this.connection = this.factory.createConnection();
+            // create the connection
+            this.connection = this.factory.createConnection();
 
-	            // create the session
-	            this.session = this.connection.createSession(
-	                false, Session.AUTO_ACKNOWLEDGE);
-	            
-	            
-	        } catch (JMSException exception) {
-	            exception.printStackTrace();
-	        } catch (NamingException ex) {
+            // create the session
+            this.session = this.connection.createSession(
+                    false, Session.AUTO_ACKNOWLEDGE);
+
+        } catch (JMSException exception) {
+            exception.printStackTrace();
+        } catch (NamingException ex) {
             Logger.getLogger(ListenerAffaireCommandeValidee.class.getName()).log(Level.SEVERE, null, ex);
-                }
+        }
     }
-    
+
     @Override
     public void onMessage(Message message) {
         System.out.println("Message reçu sur Gestion Achat ");
-        if(message instanceof TextMessage){
+        if (message instanceof TextMessage) {
             TextMessage msg = (TextMessage) message;
             try {
-                System.out.println(" \t Received : " + msg.getText() + " (JMS Type : " + msg.getJMSType()+ " at " + java.time.LocalDateTime.now());
+                System.out.println(" \t Received : " + msg.getText() + " (JMS Type : " + msg.getJMSType() + ") at " + java.time.LocalDateTime.now());
             } catch (JMSException ex) {
-                System.err.println("Failed to get message text: " + ex );
+                System.err.println("Failed to get message text: " + ex);
             }
         } else if (message != null) {
             System.out.println("Non Text Message Received");
         }
     }
-    
+
 }

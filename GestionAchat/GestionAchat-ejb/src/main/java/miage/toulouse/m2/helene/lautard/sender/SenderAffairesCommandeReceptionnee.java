@@ -32,7 +32,7 @@ import javax.naming.NamingException;
         @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Topic")
 })
 public class SenderAffairesCommandeReceptionnee implements MessageListener {
-    
+
     Context context = null;
     ConnectionFactory factory = null;
     Connection connection = null;
@@ -42,16 +42,19 @@ public class SenderAffairesCommandeReceptionnee implements MessageListener {
     Session session = null;
     MessageProducer sender = null;
     String text = "Commande réceptionnée pour affaire N°XXX ";
-    
+
     public SenderAffairesCommandeReceptionnee() {
     }
-    
+
     @Override
     public void onMessage(Message message) {
-        System.out.println("ACK ");
+        //System.out.println("ACK ");
     }
-    
-    public void sendMsgCommandeReceptionnee(){
+
+    /**
+     * Actions réalisées pour envoyer une notification de réception d'une commande
+     */
+    public void sendMsgCommandeReceptionnee() {
         try {
             // create the JNDI initial context.
             this.context = new InitialContext();
@@ -69,14 +72,13 @@ public class SenderAffairesCommandeReceptionnee implements MessageListener {
 
             // create the session
             this.session = connection.createSession(
-                false, Session.AUTO_ACKNOWLEDGE);
+                    false, Session.AUTO_ACKNOWLEDGE);
 
             // create the sender
             this.sender = session.createProducer(dest);
 
-
             //TODO Change TextMessage to ObjectMessage(Affaire)
-            TextMessage message  = session.createTextMessage();
+            TextMessage message = session.createTextMessage();
             message.setText(text);
             message.setJMSType("CommandeReceptionnée");
             sender.send(message);
@@ -86,5 +88,5 @@ public class SenderAffairesCommandeReceptionnee implements MessageListener {
             exception.printStackTrace();
         }
     }
-    
+
 }

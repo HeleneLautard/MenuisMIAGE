@@ -29,7 +29,7 @@ import javax.naming.NamingException;
     @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
 })
 public class SenderPremierChequesEncaisser implements MessageListener {
-    
+
     InitialContext context = null;
     ConnectionFactory factory = null;
     Connection connection = null;
@@ -40,11 +40,14 @@ public class SenderPremierChequesEncaisser implements MessageListener {
     Session session = null;
     MessageProducer sender = null;
     String text = "Message (gestion achat) N° ";
-    
+
     public SenderPremierChequesEncaisser() {
     }
-    
-    public void sendMsgEncaisserCheque1(){
+
+    /**
+     * Actions effectuées pour notifier l'encaissement du chèque N°1
+     */
+    public void sendMsgEncaisserCheque1() {
         try {
             // create the JNDI initial context.
             context = new InitialContext();
@@ -60,7 +63,7 @@ public class SenderPremierChequesEncaisser implements MessageListener {
 
             // create the session
             session = connection.createSession(
-                false, Session.AUTO_ACKNOWLEDGE);
+                    false, Session.AUTO_ACKNOWLEDGE);
 
             // create the sender
             sender = session.createProducer(dest);
@@ -69,7 +72,7 @@ public class SenderPremierChequesEncaisser implements MessageListener {
             connection.start();
 
             for (int i = 0; i < count; ++i) {
-                TextMessage message  = session.createTextMessage();
+                TextMessage message = session.createTextMessage();
                 message.setText(text + (i + 1));
                 sender.send(message);
                 System.out.println("Sent: " + message.getText());
@@ -98,10 +101,10 @@ public class SenderPremierChequesEncaisser implements MessageListener {
             }
         }
     }
-    
+
     @Override
     public void onMessage(Message message) {
-        if(message instanceof TextMessage){
+        if (message instanceof TextMessage) {
             TextMessage msg = (TextMessage) message;
             try {
                 System.out.println("ACK (Gestion Achat) : " + msg.getText());
@@ -111,7 +114,6 @@ public class SenderPremierChequesEncaisser implements MessageListener {
         } else {
             System.out.println("Non Text message (Sender Gestion Achat)");
         }
-        
-        
-    }    
+
+    }
 }
