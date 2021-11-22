@@ -10,5 +10,5 @@
         <property name="URL" value="jdbc:derby://localhost:1527/GestionAchat"/>
         <property name="driverClass" value="org.apache.derby.jdbc.ClientDriver"/>
     </jdbc-connection-pool>
-    <jdbc-resource enabled="true" jndi-name="java:app/GestionAchatDS" object-type="user" pool-name="derby_net_GestionAchat_HelenePool"/>
+    <jdbc-resource enabled="true" jndi-name="java:app/GestionAchatDB" object-type="user" pool-name="derby_net_GestionAchat_HelenePool"/>
 </resources>
