@@ -17,7 +17,8 @@ import javax.jms.TextMessage;
  * @author Hélène
  */
 @MessageDriven(mappedName = "QUEUE_CHEQUES_A_ENCAISSER", activationConfig = {
-    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
+    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue"), 
+    @ActivationConfigProperty(propertyName = "destinationLookup", propertyValue = "QUEUE_CHEQUES_A_ENCAISSER")
 })
 public class ListenerChequesAEncaisser implements MessageListener {
         
@@ -26,11 +27,10 @@ public class ListenerChequesAEncaisser implements MessageListener {
     
     @Override
     public void onMessage(Message message) {
-        System.out.println("Message reçu ");
         if(message instanceof TextMessage){
             TextMessage msg = (TextMessage) message;
             try {
-                System.out.println(" \t Received : " + msg.getText() + " at " + java.time.LocalDateTime.now());
+                System.out.println(" \t (Gestion Comptable) Received : " + msg.getText() + " at " + java.time.LocalDateTime.now());
             } catch (JMSException ex) {
                 System.err.println("Failed to get message text: " + ex );
             }
