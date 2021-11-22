@@ -26,7 +26,7 @@ public class InitBeanGestionAchat {
     
     @PostConstruct
     public void initialiser() {
-        //this.senderCheque.sendMsgEncaisserCheque1();
-        this.senderAffaire.sendMsgCommandeReceptionnee();
+        this.senderCheque.sendMsgEncaisserCheque1();
+        //this.senderAffaire.sendMsgCommandeReceptionnee();
     }
 }

@@ -68,7 +68,7 @@ public class SenderAffaires implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        //System.out.println("ACK ");
+        System.out.println(" ");
     }
 
     /**

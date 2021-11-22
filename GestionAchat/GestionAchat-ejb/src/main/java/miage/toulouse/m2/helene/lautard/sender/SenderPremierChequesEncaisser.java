@@ -25,9 +25,6 @@ import javax.naming.NamingException;
  *
  * @author Hélène
  */
-@MessageDriven(mappedName = "QUEUE_CHEQUES_A_ENCAISSER", activationConfig = {
-    @ActivationConfigProperty(propertyName = "destinationType", propertyValue = "javax.jms.Queue")
-})
 public class SenderPremierChequesEncaisser implements MessageListener {
 
     InitialContext context = null;
@@ -39,7 +36,7 @@ public class SenderPremierChequesEncaisser implements MessageListener {
     int count = 1;
     Session session = null;
     MessageProducer sender = null;
-    String text = "Message (gestion achat) N° ";
+    String text = "Bon pour encaissement du premier chèque pour l'affaire N° XXX ";
 
     public SenderPremierChequesEncaisser() {
     }
@@ -75,7 +72,7 @@ public class SenderPremierChequesEncaisser implements MessageListener {
                 TextMessage message = session.createTextMessage();
                 message.setText(text + (i + 1));
                 sender.send(message);
-                System.out.println("Sent: " + message.getText());
+                System.out.println("Sent (depuis Gestion Achat): " + message.getText());
             }
         } catch (JMSException exception) {
             exception.printStackTrace();
@@ -86,6 +83,6 @@ public class SenderPremierChequesEncaisser implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        //System.out.println("toto");
+        
     }
 }
