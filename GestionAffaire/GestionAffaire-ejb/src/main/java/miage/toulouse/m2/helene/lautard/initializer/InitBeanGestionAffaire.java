@@ -24,9 +24,9 @@ public class InitBeanGestionAffaire {
     
     @PostConstruct
     public void initialiser() {
-        //this.sender.sendMsgChequesAEncaisser();
-        this.senderAffaires.sendMsgAttentePose();
-        this.senderAffaires.sendMsgCommandeValidée();
+        this.sender.sendMsgChequesAEncaisser();
+        //this.senderAffaires.sendMsgAttentePose();
+        //this.senderAffaires.sendMsgCommandeValidée();
     }
     
 }
