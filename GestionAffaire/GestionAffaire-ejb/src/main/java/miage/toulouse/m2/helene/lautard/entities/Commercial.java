@@ -8,7 +8,6 @@ package miage.toulouse.m2.helene.lautard.entities;
 import java.io.Serializable;
 import java.util.Collection;
 import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -53,7 +52,7 @@ public class Commercial implements Serializable {
     @Size(min = 1, max = 255)
     @Column(name = "PRENOM")
     private String prenom;
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "commercialnumcommercial")
+    @OneToMany(mappedBy = "commercialnumcommercial")
     private Collection<Affaire> affaireCollection;
 
     public Commercial() {

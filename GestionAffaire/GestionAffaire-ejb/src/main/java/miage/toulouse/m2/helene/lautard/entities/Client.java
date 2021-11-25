@@ -77,12 +77,8 @@ public class Client implements Serializable {
     public Client() {
     }
 
-    public Client(Integer numclient) {
-        this.numclient = numclient;
-    }
 
-    public Client(Integer numclient, String nom, String prenom, String mail, String telephone, String adressep) {
-        this.numclient = numclient;
+    public Client(String nom, String prenom, String mail, String telephone, String adressep) {
         this.nom = nom;
         this.prenom = prenom;
         this.mail = mail;

@@ -61,20 +61,17 @@ public class Affaire implements Serializable {
     @ManyToOne(optional = false)
     private Client clientnumclient;
     @JoinColumn(name = "COMMERCIALNUMCOMMERCIAL", referencedColumnName = "NUMCOMMERCIAL")
-    @ManyToOne(optional = false)
+    @ManyToOne
     private Commercial commercialnumcommercial;
 
     public Affaire() {
     }
 
-    public Affaire(Integer numaffaire) {
-        this.numaffaire = numaffaire;
-    }
-
-    public Affaire(Integer numaffaire, String lieupose, String statut) {
-        this.numaffaire = numaffaire;
+    public Affaire(String lieupose, String statut, Client client) {
         this.lieupose = lieupose;
         this.statut = statut;
+        this.clientnumclient = client;
+        
     }
 
     public Integer getNumaffaire() {

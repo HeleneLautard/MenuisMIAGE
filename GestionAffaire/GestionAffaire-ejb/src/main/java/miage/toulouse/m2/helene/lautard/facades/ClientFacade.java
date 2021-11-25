@@ -5,6 +5,7 @@
  */
 package miage.toulouse.m2.helene.lautard.facades;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,28 @@ public class ClientFacade extends AbstractFacade<Client> implements ClientFacade
 
     public ClientFacade() {
         super(Client.class);
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public Client findClientByNum(int numClient) {
+        List<Client> res = em.createNamedQuery("Client.findByNumclient")
+                .setParameter("numclient", numClient)
+                .getResultList();
+        return res.get(0);
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public Client creerClient(String nom, String prenom, String mail, String adresseP, String telephone) {
+        Client client = new Client(nom, prenom, mail, telephone, adresseP);
+        return this.create(client);
     }
     
 }

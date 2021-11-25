@@ -16,7 +16,7 @@ import miage.toulouse.m2.helene.lautard.entities.Commercial;
 @Local
 public interface CommercialFacadeLocal {
 
-    void create(Commercial commercial);
+    Commercial create(Commercial commercial);
 
     void edit(Commercial commercial);
 

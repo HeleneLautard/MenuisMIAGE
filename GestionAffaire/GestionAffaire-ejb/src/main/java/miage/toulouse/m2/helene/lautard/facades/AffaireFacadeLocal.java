@@ -8,6 +8,7 @@ package miage.toulouse.m2.helene.lautard.facades;
 import java.util.List;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
+import miage.toulouse.m2.helene.lautard.entities.Client;
 
 /**
  *
@@ -16,7 +17,7 @@ import miage.toulouse.m2.helene.lautard.entities.Affaire;
 @Local
 public interface AffaireFacadeLocal {
 
-    void create(Affaire affaire);
+    Affaire create(Affaire affaire);
 
     void edit(Affaire affaire);
 
@@ -29,5 +30,13 @@ public interface AffaireFacadeLocal {
     List<Affaire> findRange(int[] range);
 
     int count();
+    
+    /**
+     * Création d'une affaire au début du processus de gestion
+     * @param client client concerné par l'affaire
+     * @param lieuPose lieu d'installation de l'affaire
+     * @return Affaire créée
+     */
+    Affaire creerAffaire(Client client, String lieuPose);
     
 }

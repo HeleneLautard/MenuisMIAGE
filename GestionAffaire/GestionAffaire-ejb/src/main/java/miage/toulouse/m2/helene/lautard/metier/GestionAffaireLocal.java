@@ -3,10 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miage.toulouse.m2.helene.lautard.facades;
+package miage.toulouse.m2.helene.lautard.metier;
 
-import java.util.List;
 import javax.ejb.Local;
+import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
 
@@ -15,28 +15,24 @@ import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.Clie
  * @author Hélène
  */
 @Local
-public interface ClientFacadeLocal {
-
-    Client create(Client client);
-
-    void edit(Client client);
-
-    void remove(Client client);
-
-    Client find(Object id);
-
-    List<Client> findAll();
-
-    List<Client> findRange(int[] range);
-
-    int count();
+public interface GestionAffaireLocal {
     
     /**
-     * Recherche d'un client selon son numéro d'identification
-     * @param numClient numéro client
-     * @return Client
+     * Création d'une affaire au début du processus de gestion
+     * @param client Client rattaché à l'affaire
+     * @param lieuPose Lieu d'installation de la menuiserie
+     * @return Affaire créée
+     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException
      */
-    Client findClientByNum(int numClient);
+    Affaire creerAffaire(Client client, String lieuPose) throws ClientNotFoundException;
+        
+    /**
+     * Recherche d'un client
+     * @param numClient numéro d'identification d'un client
+     * @return Client trouvé
+     * @throws ClientNotFoundException
+     */
+    Client findClient(int numClient) throws ClientNotFoundException;
     
     /**
      * Création d'un client
@@ -48,5 +44,4 @@ public interface ClientFacadeLocal {
      * @return Client
      */
     Client creerClient(String nom, String prenom, String mail, String adresseP, String telephone);
-    
 }

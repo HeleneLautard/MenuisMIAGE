@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
+import miage.toulouse.m2.helene.lautard.entities.Client;
 
 /**
  *
@@ -28,5 +29,15 @@ public class AffaireFacade extends AbstractFacade<Affaire> implements AffaireFac
     public AffaireFacade() {
         super(Affaire.class);
     }
-    
+
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Affaire creerAffaire(Client client, String lieuPose) {
+        Affaire affaire = new Affaire(lieuPose, "créée", client);
+        return this.create(affaire);
+    }
+
 }
