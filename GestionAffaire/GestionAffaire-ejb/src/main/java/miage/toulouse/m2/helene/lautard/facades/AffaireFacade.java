@@ -5,11 +5,14 @@
  */
 package miage.toulouse.m2.helene.lautard.facades;
 
+import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.CommandeDTO;
 
 /**
  *
@@ -18,8 +21,13 @@ import miage.toulouse.m2.helene.lautard.entities.Client;
 @Stateless
 public class AffaireFacade extends AbstractFacade<Affaire> implements AffaireFacadeLocal {
 
+    @EJB
+    private ClientFacadeLocal clientFacade;
+
     @PersistenceContext(unitName = "miage.toulouse.m2.eai_GestionAffaire-ejb_ejb_1.0PU")
     private EntityManager em;
+    
+    
 
     @Override
     protected EntityManager getEntityManager() {
@@ -39,5 +47,39 @@ public class AffaireFacade extends AbstractFacade<Affaire> implements AffaireFac
         Affaire affaire = new Affaire(lieuPose, "créée", client);
         return this.create(affaire);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Affaire renseignerCommande(Affaire affaire, CommandeDTO commande) {
+        affaire.setKeynumcommande(commande.getNumCommande());
+        return affaire;
+    }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Affaire findAffaireByNum(int numAffaire) {
+        List<Affaire> res = em.createNamedQuery("Affaire.findByNumaffaire")
+                .setParameter("numaffaire", numAffaire)
+                .getResultList();
+        return res.get(0);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Affaire checkClientAffaire(int numAffaire, int numClient) {
+        Client client = this.clientFacade.findClientByNum(numClient);
+        List<Affaire> res = this.em.createNamedQuery("Affaire.checkClientAffaire")
+                .setParameter("numaffaire", numAffaire)
+                .setParameter("numclient", client)
+                .getResultList();
+        return res.get(0);
+    }
+    
+    
 }

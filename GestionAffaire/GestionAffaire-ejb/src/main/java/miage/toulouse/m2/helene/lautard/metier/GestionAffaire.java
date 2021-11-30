@@ -5,13 +5,18 @@
  */
 package miage.toulouse.m2.helene.lautard.metier;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.facades.AffaireFacadeLocal;
 import miage.toulouse.m2.helene.lautard.facades.ClientFacadeLocal;
+import miage.toulouse.m2.helene.lautard.sender.SenderCommandeAchat;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
 
 /**
  *
@@ -25,6 +30,9 @@ public class GestionAffaire implements GestionAffaireLocal {
 
     @EJB
     private AffaireFacadeLocal affaireFacade;
+    
+    private SenderCommandeAchat sender;
+    
 
     /**
      * {@inheritDoc}
@@ -52,9 +60,61 @@ public class GestionAffaire implements GestionAffaireLocal {
         return client;
     }
 
+    /**
+     * 
+     * {@inheritDoc}
+     */
     @Override
     public Client creerClient(String nom, String prenom, String mail, String adresseP, String telephone) {
         return this.clientFacade.creerClient(nom, prenom, mail, adresseP, telephone);
     }
 
+    
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public Affaire renseingerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException {
+       try {            
+            Affaire aff = this.findAffaire(numAffaire);
+            aff = this.checkClient(numAffaire, numClient);
+            // Création du sender avec l'affaire à mettre à jour
+            this.sender = new SenderCommandeAchat(aff);
+            //Demande de création de la commande auprès du service achat
+            this.sender.sendDemandeCommande(cotes, montant, aff.getNumaffaire(), numMenuiserie);
+            return aff;
+        } catch (AffaireNotFoundException ex) {
+           throw ex;
+        } 
+    }
+
+    
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public Affaire findAffaire(int numAffaire) throws AffaireNotFoundException {
+        Affaire affaire = this.affaireFacade.findAffaireByNum(numAffaire);
+        if(affaire == null){
+            throw new AffaireNotFoundException();
+        }
+        return affaire;
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public Affaire checkClient(int numAffaire, int numClient) throws WrongClientException {
+        Affaire affaire = this.affaireFacade.checkClientAffaire(numAffaire, numClient);
+        if(affaire == null){
+            throw new WrongClientException();
+        }
+        return affaire;
+    }
+
+    
 }

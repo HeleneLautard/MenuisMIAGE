@@ -31,6 +31,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Affaire.findAll", query = "SELECT a FROM Affaire a")
     , @NamedQuery(name = "Affaire.findByNumaffaire", query = "SELECT a FROM Affaire a WHERE a.numaffaire = :numaffaire")
+    , @NamedQuery(name = "Affaire.checkClientAffaire", query = "SELECT a FROM Affaire a WHERE a.numaffaire = :numaffaire AND a.clientnumclient = :numclient")
     , @NamedQuery(name = "Affaire.findByLieupose", query = "SELECT a FROM Affaire a WHERE a.lieupose = :lieupose")
     , @NamedQuery(name = "Affaire.findByStatut", query = "SELECT a FROM Affaire a WHERE a.statut = :statut")
     , @NamedQuery(name = "Affaire.findByKeynumcommande", query = "SELECT a FROM Affaire a WHERE a.keynumcommande = :keynumcommande")
@@ -152,7 +153,9 @@ public class Affaire implements Serializable {
 
     @Override
     public String toString() {
-        return "miage.toulouse.m2.helene.lautard.entities.Affaire[ numaffaire=" + numaffaire + " ]";
+        return "Affaire{" + "numaffaire=" + numaffaire + ", lieupose=" + lieupose + ", statut=" + statut + ", keynumcommande=" + keynumcommande + ", keynumposeur=" + keynumposeur + ", clientnumclient=" + clientnumclient + ", commercialnumcommercial=" + commercialnumcommercial + '}';
     }
+
+    
     
 }

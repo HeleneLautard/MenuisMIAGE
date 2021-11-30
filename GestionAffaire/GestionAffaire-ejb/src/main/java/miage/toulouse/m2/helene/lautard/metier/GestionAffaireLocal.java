@@ -8,7 +8,9 @@ package miage.toulouse.m2.helene.lautard.metier;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
 
 /**
  *
@@ -44,4 +46,32 @@ public interface GestionAffaireLocal {
      * @return Client
      */
     Client creerClient(String nom, String prenom, String mail, String adresseP, String telephone);
+    
+    /**
+     * Vérifier l'existance d'une affaire
+     * @param numAffaire numéro de l'affaire recherchée
+     * @return Affaire trouvée
+     * @throws AffaireNotFoundException 
+     */
+    Affaire findAffaire(int numAffaire) throws AffaireNotFoundException;
+    
+    /**
+     * Vérification de la bonne combinaison client/affaire
+     * @param numAffaire numéro de l'affaire
+     * @param numClient numéro du client
+     * @return Affaire 
+     * @throws WrongClientException 
+     */
+    Affaire checkClient(int numAffaire, int numClient) throws WrongClientException;
+    
+    /**
+     * Renseigner une commande pour une affaire
+     * @param numAffaire numéro de l'affaire concernée
+     * @param numClient numéro du client associé à l'affaire
+     * @param numMenuiserie numéro de la menuiserie à commander
+     * @param cotes cotes de la menuiserie
+     * @param montant montant négocié
+     * @return Affaire mise à jour
+     */
+    Affaire renseingerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException;
 }

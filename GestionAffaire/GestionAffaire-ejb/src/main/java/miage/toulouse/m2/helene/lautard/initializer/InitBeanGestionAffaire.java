@@ -16,7 +16,9 @@ import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal;
 import miage.toulouse.m2.helene.lautard.sender.SenderAffaires;
 import miage.toulouse.m2.helene.lautard.sender.SenderSecondChequeAEncaisser;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
 
 /**
  *
@@ -49,7 +51,9 @@ public class InitBeanGestionAffaire {
             Affaire aff1 = this.gestionAffaire.creerAffaire(clientZ, clientZ.getAdressep());
             Affaire aff2 = this.gestionAffaire.creerAffaire(clientP, clientP.getAdressep());
             Affaire aff3 = this.gestionAffaire.creerAffaire(clientGir, clientGir.getAdressep());
-        } catch (ClientNotFoundException ex) {
+            
+            this.gestionAffaire.renseingerCommande(aff1.getNumaffaire(),clientZ.getNumclient() , 1, "230x180", 1589.2F);
+        } catch (ClientNotFoundException | AffaireNotFoundException | WrongClientException ex) {
             Logger.getLogger(InitBeanGestionAffaire.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

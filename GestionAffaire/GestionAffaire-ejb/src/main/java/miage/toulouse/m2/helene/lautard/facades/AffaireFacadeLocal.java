@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.CommandeDTO;
 
 /**
  *
@@ -38,5 +39,28 @@ public interface AffaireFacadeLocal {
      * @return Affaire créée
      */
     Affaire creerAffaire(Client client, String lieuPose);
+    
+    /**
+     * Rechercher une affaire par numéro d'affaire
+     * @param numAffaire numéro de l'affaire recherchée
+     * @return Affaire
+     */
+    Affaire findAffaireByNum(int numAffaire);
+    
+    /**
+     * Vérifier la combinaise affaire/client
+     * @param numAffaire numéro de l'affaire recherchée
+     * @param numClient numéro du client recherché
+     * @return Affaire correspondante
+     */
+    Affaire checkClientAffaire(int numAffaire, int numClient);
+    
+    /**
+     * Renseigner une commande pour une affaire
+     * @param affaire affaire concernée
+     * @param commande commande liée à l'affaire
+     * @return affaire mise à jour
+     */
+    Affaire renseignerCommande(Affaire affaire, CommandeDTO commande);
     
 }

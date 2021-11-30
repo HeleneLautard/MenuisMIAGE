@@ -25,7 +25,7 @@ import javax.naming.NamingException;
  *
  * @author Hélène
  */
-public class SenderSecondChequeAEncaisser implements MessageListener {
+public class SenderSecondChequeAEncaisser {
 
     InitialContext context = null;
     ConnectionFactory factory = null;
@@ -41,10 +41,7 @@ public class SenderSecondChequeAEncaisser implements MessageListener {
     public SenderSecondChequeAEncaisser() {
     }
 
-    @Override
-    public void onMessage(Message message) {
-        
-    }
+    
 
     public void sendMsgChequesAEncaisser() {
         try {
