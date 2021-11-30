@@ -22,8 +22,14 @@ public abstract class AbstractFacade<T> {
 
     protected abstract EntityManager getEntityManager();
 
-    public void create(T entity) {
+    public T create(T entity) {
         getEntityManager().persist(entity);
+        getEntityManager().flush();
+        getEntityManager().refresh(entity);
+        Object id = getEntityManager().getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
+        System.out.println("Creation de l'entité de type " + entity.getClass().getSimpleName());
+        System.out.println("\t " + entity.toString());
+        return this.find(id);
     }
 
     public void edit(T entity) {

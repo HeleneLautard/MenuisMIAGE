@@ -5,6 +5,7 @@
  */
 package miage.toulouse.m2.helene.lautard.facades;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,6 +28,27 @@ public class MenuiserieFacade extends AbstractFacade<Menuiserie> implements Menu
 
     public MenuiserieFacade() {
         super(Menuiserie.class);
+    }
+
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Menuiserie creerMenuiserie(String designation, String fabricant) {
+        Menuiserie menuis = new Menuiserie(designation, fabricant);
+        return this.create(menuis);
+    }
+
+     /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Menuiserie findMenuiserieByNum(int numMenuiserie) {
+        List<Menuiserie> res = em.createNamedQuery("Menuiserie.findByNummenuiserie")
+                .setParameter("nummenuiserie", numMenuiserie)
+                .getResultList();
+        return res.get(0);
     }
     
 }

@@ -59,12 +59,7 @@ public class Menuiserie implements Serializable {
     public Menuiserie() {
     }
 
-    public Menuiserie(Integer nummenuiserie) {
-        this.nummenuiserie = nummenuiserie;
-    }
-
-    public Menuiserie(Integer nummenuiserie, String designation, String fabricant) {
-        this.nummenuiserie = nummenuiserie;
+    public Menuiserie(String designation, String fabricant) {
         this.designation = designation;
         this.fabricant = fabricant;
     }

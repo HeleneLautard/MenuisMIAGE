@@ -9,6 +9,7 @@ import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import miage.toulouse.m2.helene.lautard.entities.Commande;
+import miage.toulouse.m2.helene.lautard.entities.Menuiserie;
 
 /**
  *
@@ -27,6 +28,15 @@ public class CommandeFacade extends AbstractFacade<Commande> implements Commande
 
     public CommandeFacade() {
         super(Commande.class);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Commande creerCommande(String cotes, float montant, int keynumaffaire, Menuiserie menuis) {
+        Commande commande = new Commande(cotes, montant, keynumaffaire, menuis);
+        return this.create(commande);
     }
     
 }

@@ -8,6 +8,7 @@ package miage.toulouse.m2.helene.lautard.facades;
 import java.util.List;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.entities.Commande;
+import miage.toulouse.m2.helene.lautard.entities.Menuiserie;
 
 /**
  *
@@ -16,7 +17,7 @@ import miage.toulouse.m2.helene.lautard.entities.Commande;
 @Local
 public interface CommandeFacadeLocal {
 
-    void create(Commande commande);
+    Commande create(Commande commande);
 
     void edit(Commande commande);
 
@@ -29,5 +30,15 @@ public interface CommandeFacadeLocal {
     List<Commande> findRange(int[] range);
 
     int count();
+    
+    /**
+     * Création d'une commande de menuiserie
+     * @param cotes cotes de la menuiserie
+     * @param montant montant négocié
+     * @param keynumaffaire numéro de l'affaire concernée par la commande
+     * @param menuis menuiserie à commander
+     * @return Commande
+     */
+    Commande creerCommande(String cotes, float montant, int keynumaffaire, Menuiserie menuis);
     
 }

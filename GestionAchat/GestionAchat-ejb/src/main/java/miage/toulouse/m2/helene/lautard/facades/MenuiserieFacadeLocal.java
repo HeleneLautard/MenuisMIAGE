@@ -16,7 +16,7 @@ import miage.toulouse.m2.helene.lautard.entities.Menuiserie;
 @Local
 public interface MenuiserieFacadeLocal {
 
-    void create(Menuiserie menuiserie);
+    Menuiserie create(Menuiserie menuiserie);
 
     void edit(Menuiserie menuiserie);
 
@@ -29,5 +29,20 @@ public interface MenuiserieFacadeLocal {
     List<Menuiserie> findRange(int[] range);
 
     int count();
+    
+    /**
+     * Création d'une menuiserie
+     * @param designation nom de la menuiserie
+     * @param fabricant fabricant de la menuiserie
+     * @return Menuiserie
+     */
+    Menuiserie creerMenuiserie(String designation, String fabricant);
+    
+    /**
+     * Vérifier l'existance d'une menuiserie
+     * @param numMenuiserie numéro de la menuiserie rechercher
+     * @return Menuiserie
+     */
+    Menuiserie findMenuiserieByNum(int numMenuiserie);
     
 }

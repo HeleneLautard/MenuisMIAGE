@@ -10,4 +10,11 @@
     <module>GestionAchat-web</module>
     <module>GestionAchat-ejb</module>
   </modules>
+  <dependencies>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>MenuisMIAGEShared</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+    </dependencies>
 </project>

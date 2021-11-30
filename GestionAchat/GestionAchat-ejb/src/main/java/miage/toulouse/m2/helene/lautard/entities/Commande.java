@@ -66,11 +66,11 @@ public class Commande implements Serializable {
         this.numcommande = numcommande;
     }
 
-    public Commande(Integer numcommande, String cotes, float montant, int keynumaffaire) {
-        this.numcommande = numcommande;
+    public Commande(String cotes, float montant, int keynumaffaire, Menuiserie menuis) {
         this.cotes = cotes;
         this.montant = montant;
         this.keynumaffaire = keynumaffaire;
+        this.menuiserienummenuiserie = menuis;
     }
 
     public Integer getNumcommande() {
