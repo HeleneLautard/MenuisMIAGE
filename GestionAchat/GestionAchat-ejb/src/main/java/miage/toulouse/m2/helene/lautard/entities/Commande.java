@@ -53,6 +53,10 @@ public class Commande implements Serializable {
     private float montant;
     @Basic(optional = false)
     @NotNull
+    @Column(name = "STATUT")
+    private String statut;    
+    @Basic(optional = false)
+    @NotNull
     @Column(name = "KEYNUMAFFAIRE")
     private int keynumaffaire;
     @JoinColumn(name = "MENUISERIENUMMENUISERIE", referencedColumnName = "NUMMENUISERIE")
@@ -71,6 +75,7 @@ public class Commande implements Serializable {
         this.montant = montant;
         this.keynumaffaire = keynumaffaire;
         this.menuiserienummenuiserie = menuis;
+        this.statut = "créée";
     }
 
     public Integer getNumcommande() {
@@ -113,6 +118,15 @@ public class Commande implements Serializable {
         this.menuiserienummenuiserie = menuiserienummenuiserie;
     }
 
+    public String getStatut() {
+        return statut;
+    }
+
+    public void setStatut(String statut) {
+        this.statut = statut;
+    }
+
+    
     @Override
     public int hashCode() {
         int hash = 0;
@@ -135,7 +149,9 @@ public class Commande implements Serializable {
 
     @Override
     public String toString() {
-        return "miage.toulouse.m2.helene.lautard.entities.Commande[ numcommande=" + numcommande + " ]";
+        return "Commande{" + "numcommande=" + numcommande + ", cotes=" + cotes + ", montant=" + montant + ", statut=" + statut + ", keynumaffaire=" + keynumaffaire + ", menuiserienummenuiserie=" + menuiserienummenuiserie + '}';
     }
+
+    
     
 }

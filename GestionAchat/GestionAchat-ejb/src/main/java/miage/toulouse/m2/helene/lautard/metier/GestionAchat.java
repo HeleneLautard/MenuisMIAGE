@@ -13,7 +13,9 @@ import miage.toulouse.m2.helene.lautard.entities.Commande;
 import miage.toulouse.m2.helene.lautard.entities.Menuiserie;
 import miage.toulouse.m2.helene.lautard.facades.CommandeFacadeLocal;
 import miage.toulouse.m2.helene.lautard.facades.MenuiserieFacadeLocal;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommandeNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.MenuiserieNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
 /**
  *
@@ -62,6 +64,26 @@ public class GestionAchat implements GestionAchatLocal {
            throw new MenuiserieNotFoundException();
        }
        return menuiserie;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Commande findCommande(int numCommande) throws CommandeNotFoundException {
+        Commande commande = this.commandeFacade.findCommandeByNum(numCommande);
+        if(commande == null){
+            throw new CommandeNotFoundException();
+        }
+        return commande;
+    }
+
+    @Override
+    public void checkTotalAmount(Commande commande, float montant1, float montant2) throws WrongTotalAmountException {
+        float total = commande.getMontant();
+        if(montant1 + montant2 != total){
+            throw new WrongTotalAmountException();
+        }
     }
 
 }

@@ -5,6 +5,7 @@
  */
 package miage.toulouse.m2.helene.lautard.facades;
 
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -37,6 +38,14 @@ public class CommandeFacade extends AbstractFacade<Commande> implements Commande
     public Commande creerCommande(String cotes, float montant, int keynumaffaire, Menuiserie menuis) {
         Commande commande = new Commande(cotes, montant, keynumaffaire, menuis);
         return this.create(commande);
+    }
+
+    @Override
+    public Commande findCommandeByNum(int numCommande) {
+        List<Commande> res = this.em.createNamedQuery("Commande.findByNumcommande")
+                .setParameter("numcommande", numCommande)
+                .getResultList();
+        return res.get(0);
     }
     
 }

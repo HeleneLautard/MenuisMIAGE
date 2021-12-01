@@ -8,6 +8,7 @@ package miage.toulouse.m2.helene.lautard.listener;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.ActivationConfigProperty;
+import javax.ejb.EJB;
 import javax.ejb.MessageDriven;
 import javax.jms.Connection;
 import javax.jms.ConnectionFactory;
@@ -16,11 +17,17 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
+import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import miage.toulouse.m2.helene.lautard.entities.Commande;
+import miage.toulouse.m2.helene.lautard.metier.GestionAchatLocal;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.AffaireDTO;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommandeNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
 /**
  *
@@ -37,6 +44,9 @@ import javax.naming.NamingException;
 })
 public class ListenerAffaireCommandeValidee implements MessageListener {
 
+    @EJB
+    private GestionAchatLocal gestionAchat;
+
     private Context context = null;
     private ConnectionFactory factory = null;
     private Connection connection = null;
@@ -45,6 +55,8 @@ public class ListenerAffaireCommandeValidee implements MessageListener {
     private Destination dest = null;
     private Session session = null;
     private MessageConsumer receiver = null;
+    
+    
 
     public ListenerAffaireCommandeValidee() {
         try {
@@ -73,16 +85,20 @@ public class ListenerAffaireCommandeValidee implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
-        System.out.println("Message reçu sur Gestion Achat ");
-        if (message instanceof TextMessage) {
-            TextMessage msg = (TextMessage) message;
+        if (message instanceof ObjectMessage) {
             try {
-                System.out.println(" \t Received : " + msg.getText() + " (JMS Type : " + msg.getJMSType() + ") at " + java.time.LocalDateTime.now());
-            } catch (JMSException ex) {
-                System.err.println("Failed to get message text: " + ex);
+                ObjectMessage msg = (ObjectMessage) message;
+                AffaireDTO aff = (AffaireDTO) msg.getObject();
+                int numCommande = aff.getNumCommande();
+                Commande commande = this.gestionAchat.findCommande(numCommande);
+                this.gestionAchat.checkTotalAmount(commande, aff.getMontant1(), aff.getMontant2());
+                // Modification du statut de la commande 
+                commande.setStatut("validée");
+            } catch (JMSException | CommandeNotFoundException | WrongTotalAmountException ex) {
+                Logger.getLogger(ListenerAffaireCommandeValidee.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (message != null) {
-            System.out.println("Non Text Message Received");
+            System.out.println("(GESTION ACHAT) Le message reçu n'est pas un ObjectMessage");
         }
     }
 

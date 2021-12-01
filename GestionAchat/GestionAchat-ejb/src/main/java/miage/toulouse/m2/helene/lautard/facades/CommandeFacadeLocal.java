@@ -41,4 +41,11 @@ public interface CommandeFacadeLocal {
      */
     Commande creerCommande(String cotes, float montant, int keynumaffaire, Menuiserie menuis);
     
+    /**
+     * Rechercher une commande selon son numéro
+     * @param numCommande numéro de commande
+     * @return Commande
+     */
+    Commande findCommandeByNum(int numCommande);
+    
 }

@@ -8,7 +8,9 @@ package miage.toulouse.m2.helene.lautard.metier;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.entities.Commande;
 import miage.toulouse.m2.helene.lautard.entities.Menuiserie;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommandeNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.MenuiserieNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
 /**
  *
@@ -43,5 +45,22 @@ public interface GestionAchatLocal {
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.MenuiserieNotFoundException
      */
     Menuiserie findMenuiserie(int numMenuiserie) throws MenuiserieNotFoundException;
+    
+    /**
+     * Recherche d'une commande
+     * @param numCommande numéro de la commande recherchée
+     * @return Commande
+     * @throws CommandeNotFoundException 
+     */
+    Commande findCommande(int numCommande) throws CommandeNotFoundException;
+    
+    /**
+     * Vérifier que le montant des deux chèques correspond au total de la commande
+     * @param commande commande concernée
+     * @param montant1 montant du premier chèque
+     * @param montant2 montant du second chèque
+     * @throws WrongTotalAmountException 
+     */
+    void checkTotalAmount(Commande commande, float montant1, float montant2) throws WrongTotalAmountException;
     
 }
