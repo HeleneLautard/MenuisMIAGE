@@ -16,7 +16,7 @@ import miage.toulouse.m2.helene.lautard.entities.Cheque;
 @Local
 public interface ChequeFacadeLocal {
 
-    void create(Cheque cheque);
+    Cheque create(Cheque cheque);
 
     void edit(Cheque cheque);
 
@@ -30,4 +30,12 @@ public interface ChequeFacadeLocal {
 
     int count();
     
+    /**
+     * Création d'un nouveau chèque
+     * @param montant montant du chèque
+     * @param rangencaissement range de l'encaissement sur l'affaire
+     * @param keynumaffaire numéro de l'affaire concernée 
+     * @return Cheque
+     */
+    Cheque creerCheque(float montant, String rangencaissement, int keynumaffaire);
 }

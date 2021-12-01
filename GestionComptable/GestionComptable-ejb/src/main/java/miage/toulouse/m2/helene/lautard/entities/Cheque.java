@@ -67,10 +67,8 @@ public class Cheque implements Serializable {
         this.numcheque = numcheque;
     }
 
-    public Cheque(Integer numcheque, float montant, String statut, String rangencaissement, int keynumaffaire) {
-        this.numcheque = numcheque;
+    public Cheque(float montant, String rangencaissement, int keynumaffaire) {
         this.montant = montant;
-        this.statut = statut;
         this.rangencaissement = rangencaissement;
         this.keynumaffaire = keynumaffaire;
     }
