@@ -16,11 +16,14 @@ import javax.jms.JMSException;
 import javax.jms.Message;
 import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
+import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import miage.toulouse.m2.helene.lautard.entities.Affaire;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.AffaireDTO;
 
 /**
  *
@@ -74,15 +77,15 @@ public class SenderAffaires implements MessageListener {
     /**
      * Envoyer notification commande validée
      */
-    public void sendMsgCommandeValidée() {
-        this.sendMsg("CommandeValidée", "Commande de menuiserie Validée pour l'affaire N°XXX");
+    public void sendMsgCommandeValidée(Affaire affaire) {
+        this.sendMsg("CommandeValidée", affaire);
     }
 
     /**
      * Envoyer notification Attente de pose
      */
     public void sendMsgAttentePose() {
-        this.sendMsg("AttentePose", "Attente de pose de maenuiserie pour l'affaire N°XXX");
+        //this.sendMsg("AttentePose", "Attente de pose de maenuiserie pour l'affaire N°XXX");
     }
 
     /**
@@ -90,15 +93,15 @@ public class SenderAffaires implements MessageListener {
      * @param jmsType JMSType appliqué au message envoyé
      * @param textToSend Text à envoyer dans le textMessage
      */
-    private void sendMsg(String jmsType, String textToSend) {
-        //TODO Change TextMessage to ObjectMessage(Affaire)
-        TextMessage message;
+    private void sendMsg(String jmsType, Affaire affaireToSend) {
+        ObjectMessage message;
         try {
-            message = this.session.createTextMessage();
-            message.setText(textToSend);
+            message = this.session.createObjectMessage();
+            AffaireDTO affaire = new AffaireDTO(affaireToSend.getNumaffaire(), affaireToSend.getLieupose(), affaireToSend.getStatut(), affaireToSend.getClientnumclient().getNumclient(), affaireToSend.getKeynumcommande());
+            message.setObject(affaire);
             message.setJMSType(jmsType);
             sender.send(message);
-            System.out.println("Sent depuis GestionAffaire: " + message.getText());
+            System.out.println("GestionAffaire Sent (" + jmsType+"): " + affaireToSend.toString());
         } catch (JMSException ex) {
             Logger.getLogger(SenderAffaires.class.getName()).log(Level.SEVERE, null, ex);
         }

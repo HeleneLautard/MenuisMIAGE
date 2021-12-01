@@ -14,11 +14,10 @@ import javax.ejb.Startup;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal;
-import miage.toulouse.m2.helene.lautard.sender.SenderAffaires;
-import miage.toulouse.m2.helene.lautard.sender.SenderSecondChequeAEncaisser;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
 /**
  *
@@ -31,16 +30,9 @@ public class InitBeanGestionAffaire {
     @EJB
     private GestionAffaireLocal gestionAffaire;
     
-    //SenderSecondChequeAEncaisser sender = new SenderSecondChequeAEncaisser();
-    //SenderAffaires senderAffaires = new SenderAffaires();
-    
-    
     
     @PostConstruct
     public void initialiser() {
-        //this.sender.sendMsgChequesAEncaisser();
-        //this.senderAffaires.sendMsgAttentePose();
-        //this.senderAffaires.sendMsgCommandeValidée();
         Client clientDupont = this.gestionAffaire.creerClient("Dupount", "Jean", "dupont@miage.fr", "9 rue des fleurs, Toulouse", "06.......");
         Client clientZ = this.gestionAffaire.creerClient("Monsieur", "Z", "z@miage.fr", "9 rue des lilas, Toulouse", "06.......");
         Client clientP = this.gestionAffaire.creerClient("Madame", "P", "p@miage.fr", "9 rue des tournesols", "06.......");
@@ -53,6 +45,8 @@ public class InitBeanGestionAffaire {
             Affaire aff3 = this.gestionAffaire.creerAffaire(clientGir, clientGir.getAdressep());
             
             this.gestionAffaire.renseingerCommande(aff1.getNumaffaire(),clientZ.getNumclient() , 1, "230x180", 1589.2F);
+            
+            //this.gestionAffaire.validerCommande(aff1.getNumaffaire(), 1588.2F, 1);
         } catch (ClientNotFoundException | AffaireNotFoundException | WrongClientException ex) {
             Logger.getLogger(InitBeanGestionAffaire.class.getName()).log(Level.SEVERE, null, ex);
         }

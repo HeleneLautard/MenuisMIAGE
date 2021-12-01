@@ -11,6 +11,7 @@ import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
 /**
  *
@@ -72,6 +73,19 @@ public interface GestionAffaireLocal {
      * @param cotes cotes de la menuiserie
      * @param montant montant négocié
      * @return Affaire mise à jour
+     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException
+     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException
      */
     Affaire renseingerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException;
+    
+    
+    /**
+     * Valider une commande pour une affaire
+     * @param numAffaire numéro de l'affaire concernée
+     * @param montant1 montant du chèque N°1
+     * @param montant2 montant du chèque N°2
+     * @throws AffaireNotFoundException
+     * @throws WrongTotalAmountException
+     */
+    void validerCommande(int numAffaire, float montant1, float montant2) throws AffaireNotFoundException, WrongTotalAmountException;
 }

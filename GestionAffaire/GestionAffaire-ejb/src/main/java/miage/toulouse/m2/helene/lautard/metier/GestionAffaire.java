@@ -13,10 +13,12 @@ import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.facades.AffaireFacadeLocal;
 import miage.toulouse.m2.helene.lautard.facades.ClientFacadeLocal;
+import miage.toulouse.m2.helene.lautard.sender.SenderAffaires;
 import miage.toulouse.m2.helene.lautard.sender.SenderCommandeAchat;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
 /**
  *
@@ -31,7 +33,9 @@ public class GestionAffaire implements GestionAffaireLocal {
     @EJB
     private AffaireFacadeLocal affaireFacade;
     
-    private SenderCommandeAchat sender;
+    private SenderCommandeAchat senderCommande;
+    
+    private SenderAffaires senderAffaire;
     
 
     /**
@@ -48,17 +52,6 @@ public class GestionAffaire implements GestionAffaireLocal {
         }
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public Client findClient(int numClient) throws ClientNotFoundException {
-        Client client = this.clientFacade.findClientByNum(numClient);
-        if (client == null) {
-            throw new ClientNotFoundException();
-        }
-        return client;
-    }
 
     /**
      * 
@@ -79,10 +72,10 @@ public class GestionAffaire implements GestionAffaireLocal {
        try {            
             Affaire aff = this.findAffaire(numAffaire);
             aff = this.checkClient(numAffaire, numClient);
-            // Création du sender avec l'affaire à mettre à jour
-            this.sender = new SenderCommandeAchat(aff);
+            // Création du senderCommande avec l'affaire à mettre à jour
+            this.senderCommande = new SenderCommandeAchat(aff);
             //Demande de création de la commande auprès du service achat
-            this.sender.sendDemandeCommande(cotes, montant, aff.getNumaffaire(), numMenuiserie);
+            this.senderCommande.sendDemandeCommande(cotes, montant, aff.getNumaffaire(), numMenuiserie);
             return aff;
         } catch (AffaireNotFoundException ex) {
            throw ex;
@@ -102,6 +95,19 @@ public class GestionAffaire implements GestionAffaireLocal {
         }
         return affaire;
     }
+    
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Client findClient(int numClient) throws ClientNotFoundException {
+        Client client = this.clientFacade.findClientByNum(numClient);
+        if (client == null) {
+            throw new ClientNotFoundException();
+        }
+        return client;
+    }
 
     /**
      * 
@@ -114,6 +120,15 @@ public class GestionAffaire implements GestionAffaireLocal {
             throw new WrongClientException();
         }
         return affaire;
+    }
+
+    @Override
+    public void validerCommande(int numAffaire, float montant1, float montant2) throws AffaireNotFoundException, WrongTotalAmountException {
+        // Récupérer l'affaire
+        Affaire aff = this.findAffaire(numAffaire);
+        // La marquer comme "commande validée" dans le topic pour les autres gestion
+        this.senderAffaire = new SenderAffaires();
+        this.senderAffaire.sendMsgCommandeValidée(aff);
     }
 
     
