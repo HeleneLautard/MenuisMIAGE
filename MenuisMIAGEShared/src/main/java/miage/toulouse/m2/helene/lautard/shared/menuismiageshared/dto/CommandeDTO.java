@@ -6,7 +6,6 @@
 package miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto;
 
 import java.io.Serializable;
-import javax.jms.Destination;
 
 /**
  *
@@ -76,9 +75,5 @@ public class CommandeDTO implements Serializable {
         this.numMenuiserie = numMenuiserie;
     }
 
-    public void setJMSReplyTo(Destination tempDest) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
-    
     
 }
