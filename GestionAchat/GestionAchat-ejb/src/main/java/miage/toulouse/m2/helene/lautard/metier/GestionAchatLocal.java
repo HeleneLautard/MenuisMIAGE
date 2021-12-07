@@ -6,6 +6,7 @@
 package miage.toulouse.m2.helene.lautard.metier;
 
 import javax.ejb.Local;
+import javax.jms.JMSException;
 import miage.toulouse.m2.helene.lautard.entities.Commande;
 import miage.toulouse.m2.helene.lautard.entities.Menuiserie;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommandeNotFoundException;
@@ -34,8 +35,9 @@ public interface GestionAchatLocal {
      * @param keynumaffaire numéro de l'affaire concernée
      * @param numMenuiserie menuiserie à commander
      * @return Commande
+     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.MenuiserieNotFoundException
      */
-    Commande creerCommande(String cotes, float montant, int keynumaffaire, int numMenuiserie);
+    Commande creerCommande(String cotes, float montant, int keynumaffaire, int numMenuiserie) throws MenuiserieNotFoundException;
     
     
     /**
@@ -63,4 +65,11 @@ public interface GestionAchatLocal {
      */
     void checkTotalAmount(Commande commande, float montant1, float montant2) throws WrongTotalAmountException;
     
+    /**
+     * Passer une commande de menuiserie auprès du fournisseur
+     * @param numCommande numéro de la commande
+     * @return commande MAJ
+     * @throws CommandeNotFoundException Commande inconnue
+     */
+    Commande passerCommandeFournisseur(int numCommande) throws CommandeNotFoundException, JMSException;
 }

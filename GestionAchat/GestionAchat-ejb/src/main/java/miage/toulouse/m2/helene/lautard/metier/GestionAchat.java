@@ -9,10 +9,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jms.JMSException;
+import javax.jms.Message;
+import javax.jms.ObjectMessage;
 import miage.toulouse.m2.helene.lautard.entities.Commande;
 import miage.toulouse.m2.helene.lautard.entities.Menuiserie;
 import miage.toulouse.m2.helene.lautard.facades.CommandeFacadeLocal;
 import miage.toulouse.m2.helene.lautard.facades.MenuiserieFacadeLocal;
+import miage.toulouse.m2.helene.lautard.sender.SenderDemandeAffaire;
+import miage.toulouse.m2.helene.lautard.sender.SenderPremierChequesEncaisser;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.AffaireDTO;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommandeNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.MenuiserieNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
@@ -30,6 +36,9 @@ public class GestionAchat implements GestionAchatLocal {
     @EJB
     private CommandeFacadeLocal commandeFacade;
     
+    private SenderDemandeAffaire senderDemandeAffaire;
+    
+    private SenderPremierChequesEncaisser senderEncaisserCheque;
     
     /**
      * {@inheritDoc}
@@ -43,15 +52,14 @@ public class GestionAchat implements GestionAchatLocal {
      * {@inheritDoc}
      */
     @Override
-    public Commande creerCommande(String cotes, float montant, int keynumaffaire, int numMenuis) {
-        Commande commande = new Commande();
+    public Commande creerCommande(String cotes, float montant, int keynumaffaire, int numMenuis) throws MenuiserieNotFoundException {
         try {
             Menuiserie menuis = this.findMenuiserie(numMenuis);
-            commande = this.commandeFacade.creerCommande(cotes, montant, keynumaffaire, menuis);
+            Commande commande = this.commandeFacade.creerCommande(cotes, montant, keynumaffaire, menuis);
+            return commande;
         } catch (MenuiserieNotFoundException ex) {
-            System.err.println(ex);
+            throw ex;
         }
-        return commande;
     }
 
     /**
@@ -83,6 +91,27 @@ public class GestionAchat implements GestionAchatLocal {
         float total = commande.getMontant();
         if(montant1 + montant2 != total){
             throw new WrongTotalAmountException();
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Commande passerCommandeFournisseur(int numCommande) throws CommandeNotFoundException, JMSException {
+        try {
+            Commande cmd = this.findCommande(numCommande);
+            cmd.setStatut("Commandée fournisseur");
+            
+            
+            this.senderDemandeAffaire = new  SenderDemandeAffaire();
+            AffaireDTO affaire = this.senderDemandeAffaire.sendDemandeAffaire(numCommande);
+            // Send info pour encaissement du premier chèque de l'affaire
+            this.senderEncaisserCheque.sendMsgEncaisserCheque1();
+            
+            return cmd;
+        } catch (CommandeNotFoundException | JMSException ex){
+            throw ex;
         }
     }
 

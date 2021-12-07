@@ -19,7 +19,6 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
-import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
@@ -75,7 +74,7 @@ public class ListenerAffaireCommandeValidee implements MessageListener {
             // create the session
             this.session = this.connection.createSession(
                     false, Session.AUTO_ACKNOWLEDGE);
-
+            
         } catch (JMSException exception) {
             exception.printStackTrace();
         } catch (NamingException ex) {
