@@ -18,6 +18,7 @@ public class CommandeDTO implements Serializable {
     float montant; 
     int numAffaire; 
     int numMenuiserie;
+    int numClient;
 
     public CommandeDTO(int numCommande, String cotes, float montant, int numAffaire, int numMenuiserie) {
         this.numCommande = numCommande;
@@ -33,6 +34,24 @@ public class CommandeDTO implements Serializable {
         this.numAffaire = numAffaire;
         this.numMenuiserie = numMenuiserie;
     }
+
+    public CommandeDTO(String cotes, float montant, int numAffaire, int numMenuiserie, int numClient) {
+        this.cotes = cotes;
+        this.montant = montant;
+        this.numAffaire = numAffaire;
+        this.numMenuiserie = numMenuiserie;
+        this.numClient = numClient;
+    }
+
+    public int getNumClient() {
+        return numClient;
+    }
+
+    public void setNumClient(int numClient) {
+        this.numClient = numClient;
+    }
+    
+    
 
     
     public int getNumCommande() {
