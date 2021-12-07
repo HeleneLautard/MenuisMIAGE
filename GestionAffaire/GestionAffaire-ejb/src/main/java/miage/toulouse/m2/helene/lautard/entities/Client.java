@@ -165,7 +165,8 @@ public class Client implements Serializable {
 
     @Override
     public String toString() {
-        return "miage.toulouse.m2.helene.lautard.entities.Client[ numclient=" + numclient + " ]";
+        return "Client{" + "numclient=" + numclient + ", nom=" + nom + ", prenom=" + prenom + ", mail=" + mail + ", telephone=" + telephone + ", adressep=" + adressep + ", affaireCollection=" + affaireCollection + '}';
     }
+
     
 }

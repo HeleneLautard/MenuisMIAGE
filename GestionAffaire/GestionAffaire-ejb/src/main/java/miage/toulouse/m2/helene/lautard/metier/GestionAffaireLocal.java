@@ -22,12 +22,12 @@ public interface GestionAffaireLocal {
     
     /**
      * Création d'une affaire au début du processus de gestion
-     * @param client Client rattaché à l'affaire
+     * @param numclient Client rattaché à l'affaire
      * @param lieuPose Lieu d'installation de la menuiserie
      * @return Affaire créée
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException
      */
-    Affaire creerAffaire(Client client, String lieuPose) throws ClientNotFoundException;
+    Affaire creerAffaire(int numclient, String lieuPose) throws ClientNotFoundException;
         
     /**
      * Recherche d'un client
@@ -76,7 +76,7 @@ public interface GestionAffaireLocal {
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException
      */
-    Affaire renseingerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException;
+    Affaire renseignerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException;
     
     
     /**

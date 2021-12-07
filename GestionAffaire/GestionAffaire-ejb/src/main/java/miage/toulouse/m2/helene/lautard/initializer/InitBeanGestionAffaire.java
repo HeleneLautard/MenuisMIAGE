@@ -17,7 +17,6 @@ import miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
-import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
 /**
  *
@@ -40,14 +39,14 @@ public class InitBeanGestionAffaire {
         
         
         try {
-            Affaire aff1 = this.gestionAffaire.creerAffaire(clientZ, clientZ.getAdressep());
-            Affaire aff2 = this.gestionAffaire.creerAffaire(clientP, clientP.getAdressep());
-            Affaire aff3 = this.gestionAffaire.creerAffaire(clientGir, clientGir.getAdressep());
+            Affaire aff1 = this.gestionAffaire.creerAffaire(clientZ.getNumclient(), clientZ.getAdressep());
+            Affaire aff2 = this.gestionAffaire.creerAffaire(clientP.getNumclient(), clientP.getAdressep());
+            Affaire aff3 = this.gestionAffaire.creerAffaire(clientGir.getNumclient(), clientGir.getAdressep());
+            Affaire aff4 = this.gestionAffaire.creerAffaire(clientZ.getNumclient(), clientZ.getAdressep());
+            Affaire aff5 = this.gestionAffaire.creerAffaire(clientP.getNumclient(), clientP.getAdressep());
+            Affaire aff6 = this.gestionAffaire.creerAffaire(clientGir.getNumclient(), clientGir.getAdressep());
             
-            this.gestionAffaire.renseingerCommande(aff1.getNumaffaire(),clientZ.getNumclient() , 1, "230x180", 1589.2F);
-            
-            //this.gestionAffaire.validerCommande(aff1.getNumaffaire(), 1588.2F, 1);
-        } catch (ClientNotFoundException | AffaireNotFoundException | WrongClientException ex) {
+        } catch (ClientNotFoundException ex) {
             Logger.getLogger(InitBeanGestionAffaire.class.getName()).log(Level.SEVERE, null, ex);
         }
     }

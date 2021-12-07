@@ -42,9 +42,9 @@ public class GestionAffaire implements GestionAffaireLocal {
      * {@inheritDoc}
      */
     @Override
-    public Affaire creerAffaire(Client client, String lieuPose) throws ClientNotFoundException {
+    public Affaire creerAffaire(int numclient, String lieuPose) throws ClientNotFoundException {
         try {
-            Client clt = this.findClient(client.getNumclient());
+            Client clt = this.findClient(numclient);
             Affaire affaire = this.affaireFacade.creerAffaire(clt, lieuPose);
             return affaire;
         } catch (ClientNotFoundException ex) {
@@ -68,7 +68,7 @@ public class GestionAffaire implements GestionAffaireLocal {
      * {@inheritDoc}
      */
     @Override
-    public Affaire renseingerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException {
+    public Affaire renseignerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException {
        try {            
             Affaire aff = this.findAffaire(numAffaire);
             aff = this.checkClient(numAffaire, numClient);
@@ -76,7 +76,7 @@ public class GestionAffaire implements GestionAffaireLocal {
             this.senderCommande = new SenderCommandeAchat(aff);
             //Demande de création de la commande auprès du service achat
             this.senderCommande.sendDemandeCommande(cotes, montant, aff.getNumaffaire(), numMenuiserie);
-            return aff;
+            return this.findAffaire(numAffaire);
         } catch (AffaireNotFoundException ex) {
            throw ex;
         } 

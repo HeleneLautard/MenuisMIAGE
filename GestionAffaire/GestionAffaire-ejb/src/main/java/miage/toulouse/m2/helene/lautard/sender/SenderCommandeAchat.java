@@ -19,16 +19,21 @@ import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
 import javax.jms.Session;
 import javax.jms.TextMessage;
+import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
+import miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.CommandeDTO;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 
 /**
  *
  * @author Hélène
  */
 public class SenderCommandeAchat implements MessageListener {
+
+    GestionAffaireLocal gestionAffaire = lookupGestionAffaireLocal();
     
     InitialContext context = null;
     ConnectionFactory factory = null;
@@ -41,6 +46,8 @@ public class SenderCommandeAchat implements MessageListener {
     
     int numCommande;
     Affaire affaire;
+    
+    
 
     public SenderCommandeAchat(Affaire affaire) {
         this.affaire = affaire;
@@ -64,10 +71,11 @@ public class SenderCommandeAchat implements MessageListener {
                 TextMessage msg = (TextMessage) message;
                 this.numCommande = this.getNumCommandeCreee(msg);
                 System.out.println("Commande créée, N° " + ((TextMessage) message).getText());
-                this.affaire.setKeynumcommande(this.numCommande);
-                this.affaire.setStatut("Commande passée");
-                System.out.println(this.affaire.toString());
-            } catch (JMSException ex) {
+                Affaire aff = this.gestionAffaire.findAffaire(this.affaire.getNumaffaire());
+                aff.setKeynumcommande(this.numCommande);
+                aff.setStatut("Commande passée");
+                System.out.println(aff.toString());
+            } catch (JMSException | AffaireNotFoundException ex) {
                 Logger.getLogger(SenderCommandeAchat.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
@@ -123,6 +131,16 @@ public class SenderCommandeAchat implements MessageListener {
     
     private int getNumCommandeCreee(TextMessage message) throws JMSException{
         return Integer.parseInt(message.getText());
+    }
+
+    private GestionAffaireLocal lookupGestionAffaireLocal() {
+        try {
+            Context c = new InitialContext();
+            return (GestionAffaireLocal) c.lookup("java:global/miage.toulouse.m2.helene.lautard_GestionAffaire-ear_ear_1.0/miage.toulouse.m2.helene.lautard_GestionAffaire-ejb_ejb_1.0/GestionAffaire!miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
     }
     
    
