@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miage.toulouse.m2.helene.lautard.entities;
+package miage.toulouse.m2.helene.lautard.planning.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -13,9 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,9 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Dispoposeur.findAll", query = "SELECT d FROM Dispoposeur d")
     , @NamedQuery(name = "Dispoposeur.findByIddispoposeur", query = "SELECT d FROM Dispoposeur d WHERE d.iddispoposeur = :iddispoposeur")
-    , @NamedQuery(name = "Dispoposeur.findByKeynumposeur", query = "SELECT d FROM Dispoposeur d WHERE d.keynumposeur = :keynumposeur")
+    , @NamedQuery(name = "Dispoposeur.findByNumposeur", query = "SELECT d FROM Dispoposeur d WHERE d.numposeur = :numposeur")
     , @NamedQuery(name = "Dispoposeur.findByStatut", query = "SELECT d FROM Dispoposeur d WHERE d.statut = :statut")
-    , @NamedQuery(name = "Dispoposeur.findByKeynumaffaire", query = "SELECT d FROM Dispoposeur d WHERE d.keynumaffaire = :keynumaffaire")})
+    , @NamedQuery(name = "Dispoposeur.findByNumaffaire", query = "SELECT d FROM Dispoposeur d WHERE d.numaffaire = :numaffaire")})
 public class Dispoposeur implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,28 +43,24 @@ public class Dispoposeur implements Serializable {
     private Integer iddispoposeur;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "KEYNUMPOSEUR")
-    private int keynumposeur;
+    @Column(name = "NUMPOSEUR")
+    private int numposeur;
     @Basic(optional = false)
     @NotNull
     @Column(name = "STATUT")
-    private short statut;
-    @Column(name = "KEYNUMAFFAIRE")
-    private Integer keynumaffaire;
+    private boolean statut;
+    @Column(name = "NUMAFFAIRE")
+    private Integer numaffaire;
     @JoinColumn(name = "CALENDRIERIDCALENDRIER", referencedColumnName = "IDCALENDRIER")
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private Calendrier calendrieridcalendrier;
 
     public Dispoposeur() {
     }
 
-    public Dispoposeur(Integer iddispoposeur) {
-        this.iddispoposeur = iddispoposeur;
-    }
-
-    public Dispoposeur(Integer iddispoposeur, int keynumposeur, short statut) {
-        this.iddispoposeur = iddispoposeur;
-        this.keynumposeur = keynumposeur;
+    
+    public Dispoposeur(int numposeur, boolean statut) {
+        this.numposeur = numposeur;
         this.statut = statut;
     }
 
@@ -76,28 +72,28 @@ public class Dispoposeur implements Serializable {
         this.iddispoposeur = iddispoposeur;
     }
 
-    public int getKeynumposeur() {
-        return keynumposeur;
+    public int getNumposeur() {
+        return numposeur;
     }
 
-    public void setKeynumposeur(int keynumposeur) {
-        this.keynumposeur = keynumposeur;
+    public void setNumposeur(int numposeur) {
+        this.numposeur = numposeur;
     }
 
-    public short getStatut() {
+    public boolean getStatut() {
         return statut;
     }
 
-    public void setStatut(short statut) {
+    public void setStatut(boolean statut) {
         this.statut = statut;
     }
 
-    public Integer getKeynumaffaire() {
-        return keynumaffaire;
+    public Integer getNumaffaire() {
+        return numaffaire;
     }
 
-    public void setKeynumaffaire(Integer keynumaffaire) {
-        this.keynumaffaire = keynumaffaire;
+    public void setNumaffaire(Integer numaffaire) {
+        this.numaffaire = numaffaire;
     }
 
     public Calendrier getCalendrieridcalendrier() {
@@ -130,7 +126,7 @@ public class Dispoposeur implements Serializable {
 
     @Override
     public String toString() {
-        return "miage.toulouse.m2.helene.lautard.entities.Dispoposeur[ iddispoposeur=" + iddispoposeur + " ]";
+        return "Dispoposeur{" + "iddispoposeur=" + iddispoposeur + ", numposeur=" + numposeur + ", statut=" + statut + ", numaffaire=" + numaffaire + ", calendrieridcalendrier=" + calendrieridcalendrier + '}';
     }
-    
+
 }

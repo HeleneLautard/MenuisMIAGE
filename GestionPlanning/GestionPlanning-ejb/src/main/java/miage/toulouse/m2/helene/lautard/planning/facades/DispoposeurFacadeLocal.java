@@ -3,11 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miage.toulouse.m2.helene.lautard.facades;
+package miage.toulouse.m2.helene.lautard.planning.facades;
 
 import java.util.List;
 import javax.ejb.Local;
-import miage.toulouse.m2.helene.lautard.entities.Dispoposeur;
+import miage.toulouse.m2.helene.lautard.planning.entities.Dispoposeur;
 
 /**
  *
@@ -16,9 +16,9 @@ import miage.toulouse.m2.helene.lautard.entities.Dispoposeur;
 @Local
 public interface DispoposeurFacadeLocal {
 
-    void create(Dispoposeur dispoposeur);
+    Dispoposeur create(Dispoposeur dispoposeur);
 
-    void edit(Dispoposeur dispoposeur);
+    Dispoposeur edit(Dispoposeur dispoposeur);
 
     void remove(Dispoposeur dispoposeur);
 

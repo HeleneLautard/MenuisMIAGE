@@ -3,6 +3,8 @@
   <persistence-unit name="miage.toulouse.m2.helene.lautard_GestionPlanning-ejb_ejb_1.0PU" transaction-type="JTA">
     <jta-data-source>java:app/GestionPlanningDB</jta-data-source>
     <exclude-unlisted-classes>false</exclude-unlisted-classes>
-    <properties/>
+    <properties>
+      <property name="javax.persistence.schema-generation.database.action" value="drop-and-create"/>
+    </properties>
   </persistence-unit>
 </persistence>

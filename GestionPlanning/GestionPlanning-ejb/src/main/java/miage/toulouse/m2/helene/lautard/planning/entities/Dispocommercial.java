@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miage.toulouse.m2.helene.lautard.entities;
+package miage.toulouse.m2.helene.lautard.planning.entities;
 
 import java.io.Serializable;
 import javax.persistence.Basic;
@@ -13,9 +13,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
@@ -30,9 +30,9 @@ import javax.xml.bind.annotation.XmlRootElement;
 @NamedQueries({
     @NamedQuery(name = "Dispocommercial.findAll", query = "SELECT d FROM Dispocommercial d")
     , @NamedQuery(name = "Dispocommercial.findByIddispocommercial", query = "SELECT d FROM Dispocommercial d WHERE d.iddispocommercial = :iddispocommercial")
-    , @NamedQuery(name = "Dispocommercial.findByKeynumcommercial", query = "SELECT d FROM Dispocommercial d WHERE d.keynumcommercial = :keynumcommercial")
+    , @NamedQuery(name = "Dispocommercial.findByNumcommercial", query = "SELECT d FROM Dispocommercial d WHERE d.numcommercial = :numcommercial")
     , @NamedQuery(name = "Dispocommercial.findByStatut", query = "SELECT d FROM Dispocommercial d WHERE d.statut = :statut")
-    , @NamedQuery(name = "Dispocommercial.findByKeynumaffaire", query = "SELECT d FROM Dispocommercial d WHERE d.keynumaffaire = :keynumaffaire")})
+    , @NamedQuery(name = "Dispocommercial.findByNumaffaire", query = "SELECT d FROM Dispocommercial d WHERE d.numaffaire = :numaffaire")})
 public class Dispocommercial implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -43,28 +43,25 @@ public class Dispocommercial implements Serializable {
     private Integer iddispocommercial;
     @Basic(optional = false)
     @NotNull
-    @Column(name = "KEYNUMCOMMERCIAL")
-    private int keynumcommercial;
+    @Column(name = "NUMCOMMERCIAL")
+    private int numcommercial;
     @Basic(optional = false)
     @NotNull
     @Column(name = "STATUT")
-    private short statut;
-    @Column(name = "KEYNUMAFFAIRE")
-    private Integer keynumaffaire;
+    private boolean statut;
+    @Column(name = "NUMAFFAIRE")
+    private Integer numaffaire;
     @JoinColumn(name = "CALENDRIERIDCALENDRIER", referencedColumnName = "IDCALENDRIER")
-    @OneToOne(optional = false)
+    @ManyToOne(optional = false)
     private Calendrier calendrieridcalendrier;
 
     public Dispocommercial() {
     }
 
-    public Dispocommercial(Integer iddispocommercial) {
-        this.iddispocommercial = iddispocommercial;
-    }
-
-    public Dispocommercial(Integer iddispocommercial, int keynumcommercial, short statut) {
-        this.iddispocommercial = iddispocommercial;
-        this.keynumcommercial = keynumcommercial;
+    
+    public Dispocommercial(int numcommercial, Calendrier creneau,  boolean statut) {
+        this.numcommercial = numcommercial;
+        this.calendrieridcalendrier = creneau;
         this.statut = statut;
     }
 
@@ -76,28 +73,28 @@ public class Dispocommercial implements Serializable {
         this.iddispocommercial = iddispocommercial;
     }
 
-    public int getKeynumcommercial() {
-        return keynumcommercial;
+    public int getNumcommercial() {
+        return numcommercial;
     }
 
-    public void setKeynumcommercial(int keynumcommercial) {
-        this.keynumcommercial = keynumcommercial;
+    public void setNumcommercial(int numcommercial) {
+        this.numcommercial = numcommercial;
     }
 
-    public short getStatut() {
+    public boolean getStatut() {
         return statut;
     }
 
-    public void setStatut(short statut) {
+    public void setStatut(boolean statut) {
         this.statut = statut;
     }
 
-    public Integer getKeynumaffaire() {
-        return keynumaffaire;
+    public Integer getNumaffaire() {
+        return numaffaire;
     }
 
-    public void setKeynumaffaire(Integer keynumaffaire) {
-        this.keynumaffaire = keynumaffaire;
+    public void setNumaffaire(Integer numaffaire) {
+        this.numaffaire = numaffaire;
     }
 
     public Calendrier getCalendrieridcalendrier() {
@@ -130,7 +127,9 @@ public class Dispocommercial implements Serializable {
 
     @Override
     public String toString() {
-        return "miage.toulouse.m2.helene.lautard.entities.Dispocommercial[ iddispocommercial=" + iddispocommercial + " ]";
+        return "Dispocommercial{" + "iddispocommercial=" + iddispocommercial + ", numcommercial=" + numcommercial + ", statut=" + statut + ", numaffaire=" + numaffaire + ", calendrieridcalendrier=" + calendrieridcalendrier + '}';
     }
+
+   
     
 }

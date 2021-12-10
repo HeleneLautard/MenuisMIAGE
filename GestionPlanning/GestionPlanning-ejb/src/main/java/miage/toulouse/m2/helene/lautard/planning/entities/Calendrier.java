@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miage.toulouse.m2.helene.lautard.entities;
+package miage.toulouse.m2.helene.lautard.planning.entities;
 
 import java.io.Serializable;
+import java.util.Collection;
 import java.util.Date;
 import javax.persistence.Basic;
 import javax.persistence.CascadeType;
@@ -16,12 +17,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.NamedQueries;
 import javax.persistence.NamedQuery;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 
 /**
  *
@@ -53,20 +55,13 @@ public class Calendrier implements Serializable {
     @Column(name = "DATEHEUREFIN")
     @Temporal(TemporalType.TIMESTAMP)
     private Date dateheurefin;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "calendrieridcalendrier")
-    private Dispoposeur dispoposeur;
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "calendrieridcalendrier")
-    private Dispocommercial dispocommercial;
-
+    
+    
     public Calendrier() {
     }
 
-    public Calendrier(Integer idcalendrier) {
-        this.idcalendrier = idcalendrier;
-    }
-
-    public Calendrier(Integer idcalendrier, Date dateheuredeb, Date dateheurefin) {
-        this.idcalendrier = idcalendrier;
+    
+    public Calendrier(Date dateheuredeb, Date dateheurefin) {
         this.dateheuredeb = dateheuredeb;
         this.dateheurefin = dateheurefin;
     }
@@ -95,21 +90,6 @@ public class Calendrier implements Serializable {
         this.dateheurefin = dateheurefin;
     }
 
-    public Dispoposeur getDispoposeur() {
-        return dispoposeur;
-    }
-
-    public void setDispoposeur(Dispoposeur dispoposeur) {
-        this.dispoposeur = dispoposeur;
-    }
-
-    public Dispocommercial getDispocommercial() {
-        return dispocommercial;
-    }
-
-    public void setDispocommercial(Dispocommercial dispocommercial) {
-        this.dispocommercial = dispocommercial;
-    }
 
     @Override
     public int hashCode() {
@@ -133,7 +113,9 @@ public class Calendrier implements Serializable {
 
     @Override
     public String toString() {
-        return "miage.toulouse.m2.helene.lautard.entities.Calendrier[ idcalendrier=" + idcalendrier + " ]";
+        return "Calendrier{" + "idcalendrier=" + idcalendrier + ", dateheuredeb=" + dateheuredeb + ", dateheurefin=" + dateheurefin + '}';
     }
+
     
+
 }

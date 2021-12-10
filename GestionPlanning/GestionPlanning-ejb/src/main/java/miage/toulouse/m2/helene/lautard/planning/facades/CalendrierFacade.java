@@ -3,12 +3,13 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miage.toulouse.m2.helene.lautard.facades;
+package miage.toulouse.m2.helene.lautard.planning.facades;
 
+import java.util.Date;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import miage.toulouse.m2.helene.lautard.entities.Calendrier;
+import miage.toulouse.m2.helene.lautard.planning.entities.Calendrier;
 
 /**
  *
@@ -27,6 +28,16 @@ public class CalendrierFacade extends AbstractFacade<Calendrier> implements Cale
 
     public CalendrierFacade() {
         super(Calendrier.class);
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public Calendrier creerCreneauCalendrier(Date dateHeureDeb, Date dateHeureFin) {
+        Calendrier calendrier = new Calendrier(dateHeureDeb, dateHeureFin);
+        return this.create(calendrier);
     }
     
 }

@@ -13,8 +13,6 @@ import javax.ejb.Singleton;
 import javax.ejb.Startup;
 import miage.toulouse.m2.helene.lautard.entities.Menuiserie;
 import miage.toulouse.m2.helene.lautard.metier.GestionAchatLocal;
-import miage.toulouse.m2.helene.lautard.sender.SenderAffairesCommandeReceptionnee;
-import miage.toulouse.m2.helene.lautard.sender.SenderPremierChequesEncaisser;
 
 /**
  *
@@ -27,18 +25,15 @@ public class InitBeanGestionAchat {
     @EJB
     private GestionAchatLocal gestionAchat;
     
-    SenderPremierChequesEncaisser senderCheque = new SenderPremierChequesEncaisser();
-    SenderAffairesCommandeReceptionnee senderAffaire = new SenderAffairesCommandeReceptionnee();
-    
-    
     
     @PostConstruct
     public void initialiser() {
-        //this.senderCheque.sendMsgEncaisserCheque1();
-        //this.senderAffaire.sendMsgCommandeReceptionnee();
-        
-        Menuiserie portail = this.gestionAchat.creeerMenuiserie("Portail Electrique", "MenuisMIAGE Fabrik");
-        Menuiserie fenetre = this.gestionAchat.creeerMenuiserie("Fenêtre coulissante", "Fenêtre Pro");
+
+        this.gestionAchat.creeerMenuiserie("Portail Electrique", "MenuisMIAGE Fabrik");
+        this.gestionAchat.creeerMenuiserie("Fenêtre coulissante", "Fenêtre Pro");
+        this.gestionAchat.creeerMenuiserie("Portail à battants", "PortailPro");
+        this.gestionAchat.creeerMenuiserie("Fenêtre baie vitrée", "SudMenuiserie");
+        this.gestionAchat.creeerMenuiserie("Fenêtre battant unique", "Fenêtre Pro");
                 
     }
 }

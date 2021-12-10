@@ -3,19 +3,19 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package miage.toulouse.m2.helene.lautard.facades;
+package miage.toulouse.m2.helene.lautard.planning.facades;
 
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import miage.toulouse.m2.helene.lautard.entities.Dispocommercial;
+import miage.toulouse.m2.helene.lautard.planning.entities.Dispoposeur;
 
 /**
  *
  * @author Hélène
  */
 @Stateless
-public class DispocommercialFacade extends AbstractFacade<Dispocommercial> implements DispocommercialFacadeLocal {
+public class DispoposeurFacade extends AbstractFacade<Dispoposeur> implements DispoposeurFacadeLocal {
 
     @PersistenceContext(unitName = "miage.toulouse.m2.helene.lautard_GestionPlanning-ejb_ejb_1.0PU")
     private EntityManager em;
@@ -25,8 +25,8 @@ public class DispocommercialFacade extends AbstractFacade<Dispocommercial> imple
         return em;
     }
 
-    public DispocommercialFacade() {
-        super(Dispocommercial.class);
+    public DispoposeurFacade() {
+        super(Dispoposeur.class);
     }
     
 }
