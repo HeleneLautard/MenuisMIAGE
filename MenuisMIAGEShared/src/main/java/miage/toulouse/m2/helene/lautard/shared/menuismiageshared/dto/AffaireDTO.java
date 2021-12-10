@@ -43,7 +43,10 @@ public class AffaireDTO implements Serializable {
         this.numCommande = numCommande;
     }
 
-    
+    public AffaireDTO() {
+        
+    }
+
     
     public int getNumCommande() {
         return numCommande;

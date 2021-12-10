@@ -16,6 +16,7 @@ import javax.ws.rs.PUT;
 import javax.enterprise.context.RequestScoped;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
+import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.core.MediaType;
@@ -36,7 +37,6 @@ public class AffaireResource {
 
     ServiceAffaireLocal serviceAffaire = lookupServiceAffaireLocal();
 
-    
     @Context
     private UriInfo context;
 
@@ -46,22 +46,41 @@ public class AffaireResource {
     public AffaireResource() {
     }
 
+    @GET
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getJson(@PathParam("idAffaire") String idAffaire) throws AffaireNotFoundException {
+        try {
+            int numAffaire = Integer.parseInt(idAffaire);
+            return Response.ok(this.serviceAffaire.findAffaireByNum(numAffaire)).build();
+        } catch (AffaireNotFoundException ex) {
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(ex.getMessage())
+                    .build();
+        }
+    }
 
     /**
-     * PUT method for updating or creating an instance of AffaireResource - Valider commande
+     * PUT method for updating or creating an instance of AffaireResource -
+     * Valider commande
+     *
      * @param idAffaire resource URI parameter
      * @param content representation for the resource
-     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException
-     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException
+     * @throws
+     * miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException
+     * @throws
+     * miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public void putJson(@PathParam("idAffaire") String idAffaire, String content) throws AffaireNotFoundException, WrongTotalAmountException {
         this.serviceAffaire.validerCommande(idAffaire, content);
     }
-    
+
     /**
-     * POST method for creating instance of AffaireRessource - renseinger une commande
+     * POST method for creating instance of AffaireRessource - renseinger une
+     * commande
+     *
      * @param idAffaire
      * @param content
      * @return
@@ -69,7 +88,7 @@ public class AffaireResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Response postJson(@PathParam("idAffaire") String idAffaire, String content){
+    public Response postJson(@PathParam("idAffaire") String idAffaire, String content) {
         try {
             return Response.ok(this.serviceAffaire.renseignerCommande(content)).build();
         } catch (AffaireNotFoundException | WrongClientException ex) {
@@ -78,26 +97,30 @@ public class AffaireResource {
                     .build();
         }
     }
-    
+
     /**
-     * PUT method for updating or creating an instance of AffaireResource - Réceptionner commande
+     * PUT method for updating or creating an instance of AffaireResource -
+     * Réceptionner commande
+     *
      * @param idAffaire resource URI parameter
      * @param idCommande ressource URL parameter
      * @param content representation for the resource
-     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException
-     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException
+     * @throws
+     * miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException
+     * @throws
+     * miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException
      */
     @PUT
     @Path("/{idCommande}")
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(@PathParam("idAffaire") String idAffaire,@PathParam("idAffaire") String idCommande, String content) throws AffaireNotFoundException, WrongTotalAmountException {
+    public void putJson(@PathParam("idAffaire") String idAffaire, @PathParam("idAffaire") String idCommande, String content) throws AffaireNotFoundException, WrongTotalAmountException {
         this.serviceAffaire.validerCommande(idAffaire, content);
     }
 
     private ServiceAffaireLocal lookupServiceAffaireLocal() {
         try {
             javax.naming.Context c = new InitialContext();
-            return (ServiceAffaireLocal) c.lookup("java:global/miage.toulouse.m2.helene.lautard_GestionAffaire-ear_ear_1.0/miage.toulouse.m2.helene.lautard_GestionAffaire-ejb_ejb_1.0/ServiceAffaire!miage.toulouse.m2.helene.lautard.exposition.ServiceAffaireLocal");
+            return (ServiceAffaireLocal) c.lookup("java:global/GestionAffaire-ear/GestionAffaire-ejb-1.0/ServiceAffaire!miage.toulouse.m2.helene.lautard.exposition.ServiceAffaireLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);

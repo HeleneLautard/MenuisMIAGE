@@ -17,12 +17,15 @@ import javax.jms.MessageConsumer;
 import javax.jms.MessageListener;
 import javax.jms.MessageProducer;
 import javax.jms.ObjectMessage;
+import javax.jms.QueueReceiver;
+import javax.jms.QueueSession;
 import javax.jms.Session;
 import javax.jms.TextMessage;
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
+import miage.toulouse.m2.helene.lautard.facades.AffaireFacadeLocal;
 import miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.CommandeDTO;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
@@ -32,6 +35,8 @@ import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.Affa
  * @author Hélène
  */
 public class SenderCommandeAchat implements MessageListener {
+
+    AffaireFacadeLocal affaireFacade = lookupAffaireFacadeLocal();
 
     GestionAffaireLocal gestionAffaire = lookupGestionAffaireLocal();
     
@@ -43,46 +48,16 @@ public class SenderCommandeAchat implements MessageListener {
     Destination dest = null;
     Session session = null;
     MessageProducer sender = null;
-    
+    MessageConsumer consumer = null;
+
     int numCommande;
     Affaire affaire;
-    
-    
+    int numClient;
 
-    public SenderCommandeAchat(Affaire affaire) {
-        this.affaire = affaire;
-    }
-
-    public Affaire getAffaire() {
-        return affaire;
-    }
-
-    
-    public int getNumCommande(){
-        return this.numCommande;
-    }
-    
-    
-
-    @Override
-    public void onMessage(Message message) {
-       if(message instanceof TextMessage){
-            try {
-                TextMessage msg = (TextMessage) message;
-                this.numCommande = this.getNumCommandeCreee(msg);
-                System.out.println("Commande créée, N° " + ((TextMessage) message).getText());
-                Affaire aff = this.gestionAffaire.findAffaire(this.affaire.getNumaffaire());
-                aff.setKeynumcommande(this.numCommande);
-                aff.setStatut("Commande passée");
-                System.out.println(aff.toString());
-            } catch (JMSException | AffaireNotFoundException ex) {
-                Logger.getLogger(SenderCommandeAchat.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-    
-    public void sendDemandeCommande(String cotes, float montant, int numAffaire, int numMenuiserie){
+    public SenderCommandeAchat(Affaire affaire, int numClient) throws JMSException {
         try {
+            this.affaire = affaire;
+            this.numClient = numClient;
             // create the JNDI initial context.
             context = new InitialContext();
 
@@ -101,47 +76,87 @@ public class SenderCommandeAchat implements MessageListener {
 
             // create the sender
             sender = session.createProducer(dest);
-
+            consumer = session.createConsumer(dest);
             // start the connection, to enable message sends
             connection.start();
-            
-            
+        } catch (NamingException ex) {
+            Logger.getLogger(SenderCommandeAchat.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+    }
+
+    public Affaire getAffaire() {
+        return affaire;
+    }
+
+    public int getNumCommande() {
+        return this.numCommande;
+    }
+
+    public void sendDemandeCommande(String cotes, float montant, int numAffaire, int numMenuiserie, int numClient) throws JMSException, AffaireNotFoundException {
+        try {
             Destination tempDest = session.createTemporaryQueue();
             MessageConsumer responseConsumer = session.createConsumer(tempDest);
             responseConsumer.setMessageListener(this);
-            
 
-            CommandeDTO demandeCommande = new CommandeDTO(cotes, montant, numAffaire, numMenuiserie);
+            CommandeDTO demandeCommande = new CommandeDTO(cotes, montant, numAffaire, numMenuiserie, numClient);
             ObjectMessage message = session.createObjectMessage(demandeCommande);
             message.setJMSReplyTo(tempDest);
             String correlationId = this.createRandomString();
             message.setJMSCorrelationID(correlationId);
             System.out.println("Sent : Demande de commande " + demandeCommande.toString());
             sender.send(message);
-        } catch (JMSException | NamingException exception) {
-            System.out.println(exception);
+        } catch (JMSException exception) {
+            throw exception;
         }
     }
-    
+
     private String createRandomString() {
         Random random = new Random(System.currentTimeMillis());
         long randomLong = random.nextLong();
         return Long.toHexString(randomLong);
     }
-    
-    private int getNumCommandeCreee(TextMessage message) throws JMSException{
+
+    private int getNumCommandeCreee(TextMessage message) throws JMSException {
         return Integer.parseInt(message.getText());
     }
 
     private GestionAffaireLocal lookupGestionAffaireLocal() {
         try {
             Context c = new InitialContext();
-            return (GestionAffaireLocal) c.lookup("java:global/miage.toulouse.m2.helene.lautard_GestionAffaire-ear_ear_1.0/miage.toulouse.m2.helene.lautard_GestionAffaire-ejb_ejb_1.0/GestionAffaire!miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal");
+            return (GestionAffaireLocal) c.lookup("java:global/GestionAffaire-ear/GestionAffaire-ejb-1.0/GestionAffaire!miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal");
         } catch (NamingException ne) {
             Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
             throw new RuntimeException(ne);
         }
     }
-    
-   
+
+    @Override
+    public void onMessage(Message message) {
+        if (message instanceof ObjectMessage) {
+            try {
+                ObjectMessage msg = (ObjectMessage) message;
+                CommandeDTO commandeResp = (CommandeDTO) msg.getObject();
+                this.numCommande = commandeResp.getNumCommande();
+                System.out.println("Commande créée : " + commandeResp.toString());
+                
+                Affaire affUpToDate = this.affaireFacade.renseignerCommande(this.affaire, commandeResp);
+                this.affaire = affUpToDate;
+                System.out.println(this.affaire.toString());
+            } catch (JMSException ex) {
+                Logger.getLogger(SenderCommandeAchat.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+    }
+
+    private AffaireFacadeLocal lookupAffaireFacadeLocal() {
+        try {
+            Context c = new InitialContext();
+            return (AffaireFacadeLocal) c.lookup("java:global/GestionAffaire-ear/GestionAffaire-ejb-1.0/AffaireFacade!miage.toulouse.m2.helene.lautard.facades.AffaireFacadeLocal");
+        } catch (NamingException ne) {
+            Logger.getLogger(getClass().getName()).log(Level.SEVERE, "exception caught", ne);
+            throw new RuntimeException(ne);
+        }
+    }
+
 }

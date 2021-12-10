@@ -6,6 +6,7 @@
 package miage.toulouse.m2.helene.lautard.metier;
 
 import javax.ejb.Local;
+import javax.jms.JMSException;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
@@ -75,8 +76,9 @@ public interface GestionAffaireLocal {
      * @return Affaire mise à jour
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException
+     * @throws javax.jms.JMSException
      */
-    Affaire renseignerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException;
+    Affaire renseignerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException, JMSException;
     
     
     /**

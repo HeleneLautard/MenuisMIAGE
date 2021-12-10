@@ -54,6 +54,8 @@ public class AffaireFacade extends AbstractFacade<Affaire> implements AffaireFac
     @Override
     public Affaire renseignerCommande(Affaire affaire, CommandeDTO commande) {
         affaire.setKeynumcommande(commande.getNumCommande());
+        affaire.setStatut("Commande passée");
+        this.edit(affaire);
         return affaire;
     }
 

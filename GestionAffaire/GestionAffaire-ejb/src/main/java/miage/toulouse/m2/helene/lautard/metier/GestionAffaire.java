@@ -9,6 +9,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
+import javax.jms.JMSException;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.facades.AffaireFacadeLocal;
@@ -68,14 +69,14 @@ public class GestionAffaire implements GestionAffaireLocal {
      * {@inheritDoc}
      */
     @Override
-    public Affaire renseignerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException {
+    public Affaire renseignerCommande(int numAffaire, int numClient, int numMenuiserie, String cotes, float montant) throws AffaireNotFoundException, WrongClientException, JMSException {
        try {            
             Affaire aff = this.findAffaire(numAffaire);
             aff = this.checkClient(numAffaire, numClient);
             // Création du senderCommande avec l'affaire à mettre à jour
-            this.senderCommande = new SenderCommandeAchat(aff);
+            this.senderCommande = new SenderCommandeAchat(aff, numClient);
             //Demande de création de la commande auprès du service achat
-            this.senderCommande.sendDemandeCommande(cotes, montant, aff.getNumaffaire(), numMenuiserie);
+            this.senderCommande.sendDemandeCommande(cotes, montant, aff.getNumaffaire(), numMenuiserie, numClient);
             return this.findAffaire(numAffaire);
         } catch (AffaireNotFoundException ex) {
            throw ex;
