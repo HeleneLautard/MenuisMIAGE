@@ -62,6 +62,9 @@ public class Commande implements Serializable {
     @JoinColumn(name = "MENUISERIENUMMENUISERIE", referencedColumnName = "NUMMENUISERIE")
     @ManyToOne(optional = false)
     private Menuiserie menuiserienummenuiserie;
+    @Basic(optional = false)
+    @Column(name = "NUMCLIENT")
+    private Integer numClient;
 
     public Commande() {
     }
@@ -70,12 +73,13 @@ public class Commande implements Serializable {
         this.numcommande = numcommande;
     }
 
-    public Commande(String cotes, float montant, int keynumaffaire, Menuiserie menuis) {
+    public Commande(String cotes, float montant, int keynumaffaire, Menuiserie menuis, int numClient) {
         this.cotes = cotes;
         this.montant = montant;
         this.keynumaffaire = keynumaffaire;
         this.menuiserienummenuiserie = menuis;
         this.statut = "créée";
+        this.numClient = numClient;
     }
 
     public Integer getNumcommande() {
@@ -84,6 +88,14 @@ public class Commande implements Serializable {
 
     public void setNumcommande(Integer numcommande) {
         this.numcommande = numcommande;
+    }
+
+    public Integer getNumClient() {
+        return numClient;
+    }
+
+    public void setNumClient(Integer numClient) {
+        this.numClient = numClient;
     }
 
     public String getCotes() {

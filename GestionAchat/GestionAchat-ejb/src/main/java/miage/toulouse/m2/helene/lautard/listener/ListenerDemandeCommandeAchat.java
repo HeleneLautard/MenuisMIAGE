@@ -27,6 +27,7 @@ import javax.naming.NamingException;
 import miage.toulouse.m2.helene.lautard.entities.Commande;
 import miage.toulouse.m2.helene.lautard.metier.GestionAchatLocal;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.CommandeDTO;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.MenuiserieNotFoundException;
 
 /**
  *
@@ -74,15 +75,15 @@ public class ListenerDemandeCommandeAchat implements MessageListener {
             try {
                 ObjectMessage msg = (ObjectMessage) message;
                 CommandeDTO demandeCommande = (CommandeDTO) ((ObjectMessage) message).getObject();
-                Commande cmd = this.gestionAchat.creerCommande(demandeCommande.getCotes(), demandeCommande.getMontant(), demandeCommande.getNumAffaire(), demandeCommande.getNumMenuiserie());
-                
-                TextMessage response = this.session.createTextMessage(cmd.getNumcommande().toString());
+                Commande cmd = this.gestionAchat.creerCommande(demandeCommande.getCotes(), demandeCommande.getMontant(), demandeCommande.getNumAffaire(), demandeCommande.getNumMenuiserie(), demandeCommande.getNumClient());
+                demandeCommande.setNumCommande(cmd.getNumcommande());
+                ObjectMessage response = this.session.createObjectMessage(demandeCommande);
                 response.setJMSCorrelationID(msg.getJMSCorrelationID());
                 System.out.println(msg.getJMSReplyTo());
                 this.sender.send(msg.getJMSReplyTo(), response);
 
                 System.out.println("(GESTION ACHAT) Demande de commande reçue : " + demandeCommande.toString());
-            } catch (JMSException ex) {
+            } catch (JMSException | MenuiserieNotFoundException ex) {
                 Logger.getLogger(ListenerDemandeCommandeAchat.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else {

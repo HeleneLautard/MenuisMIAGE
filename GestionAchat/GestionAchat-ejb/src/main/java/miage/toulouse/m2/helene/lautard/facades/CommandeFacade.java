@@ -35,8 +35,8 @@ public class CommandeFacade extends AbstractFacade<Commande> implements Commande
      * {@inheritDoc}
      */
     @Override
-    public Commande creerCommande(String cotes, float montant, int keynumaffaire, Menuiserie menuis) {
-        Commande commande = new Commande(cotes, montant, keynumaffaire, menuis);
+    public Commande creerCommande(String cotes, float montant, int keynumaffaire, Menuiserie menuis, int numClient) {
+        Commande commande = new Commande(cotes, montant, keynumaffaire, menuis, numClient);
         return this.create(commande);
     }
 

@@ -39,7 +39,7 @@ public interface CommandeFacadeLocal {
      * @param menuis menuiserie à commander
      * @return Commande
      */
-    Commande creerCommande(String cotes, float montant, int keynumaffaire, Menuiserie menuis);
+    Commande creerCommande(String cotes, float montant, int keynumaffaire, Menuiserie menuis, int numClient);
     
     /**
      * Rechercher une commande selon son numéro

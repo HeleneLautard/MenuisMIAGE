@@ -34,10 +34,11 @@ public interface GestionAchatLocal {
      * @param montant montant négocié
      * @param keynumaffaire numéro de l'affaire concernée
      * @param numMenuiserie menuiserie à commander
+     * @param numClient numéro du client concerné par l'affaire
      * @return Commande
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.MenuiserieNotFoundException
      */
-    Commande creerCommande(String cotes, float montant, int keynumaffaire, int numMenuiserie) throws MenuiserieNotFoundException;
+    Commande creerCommande(String cotes, float montant, int keynumaffaire, int numMenuiserie, int numClient) throws MenuiserieNotFoundException;
     
     
     /**

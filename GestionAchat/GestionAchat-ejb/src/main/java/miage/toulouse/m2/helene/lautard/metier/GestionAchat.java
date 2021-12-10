@@ -52,10 +52,10 @@ public class GestionAchat implements GestionAchatLocal {
      * {@inheritDoc}
      */
     @Override
-    public Commande creerCommande(String cotes, float montant, int keynumaffaire, int numMenuis) throws MenuiserieNotFoundException {
+    public Commande creerCommande(String cotes, float montant, int keynumaffaire, int numMenuis, int numClient) throws MenuiserieNotFoundException {
         try {
             Menuiserie menuis = this.findMenuiserie(numMenuis);
-            Commande commande = this.commandeFacade.creerCommande(cotes, montant, keynumaffaire, menuis);
+            Commande commande = this.commandeFacade.creerCommande(cotes, montant, keynumaffaire, menuis, numClient);
             return commande;
         } catch (MenuiserieNotFoundException ex) {
             throw ex;
@@ -102,8 +102,7 @@ public class GestionAchat implements GestionAchatLocal {
         try {
             Commande cmd = this.findCommande(numCommande);
             cmd.setStatut("Commandée fournisseur");
-            
-            
+            //Demande affaire selon le numéro de la commande
             this.senderDemandeAffaire = new  SenderDemandeAffaire();
             AffaireDTO affaire = this.senderDemandeAffaire.sendDemandeAffaire(numCommande);
             // Send info pour encaissement du premier chèque de l'affaire
