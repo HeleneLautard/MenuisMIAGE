@@ -127,6 +127,8 @@ public class GestionAffaire implements GestionAffaireLocal {
     public void validerCommande(int numAffaire, float montant1, float montant2) throws AffaireNotFoundException, WrongTotalAmountException {
         // Récupérer l'affaire
         Affaire aff = this.findAffaire(numAffaire);
+        //MAJ de l'entité affaire 
+        this.affaireFacade.validerCommande(aff);
         // La marquer comme "commande validée" dans le topic pour les autres gestion
         this.senderAffaire = new SenderAffaires();
         this.senderAffaire.sendMsgCommandeValidée(aff);

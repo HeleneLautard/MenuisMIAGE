@@ -63,4 +63,11 @@ public interface AffaireFacadeLocal {
      */
     Affaire renseignerCommande(Affaire affaire, CommandeDTO commande);
     
+    /**
+     * Valider la commande reliée à l'affaire
+     * @param affaire affaire concernée par la commande à valider
+     * @return Affaire MAJ
+     */
+    Affaire validerCommande(Affaire affaire);
+    
 }

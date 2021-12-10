@@ -40,12 +40,25 @@ public class CommandeFacade extends AbstractFacade<Commande> implements Commande
         return this.create(commande);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Commande findCommandeByNum(int numCommande) {
         List<Commande> res = this.em.createNamedQuery("Commande.findByNumcommande")
                 .setParameter("numcommande", numCommande)
                 .getResultList();
         return res.get(0);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public Commande validerCommande(int numCommande) {
+        Commande commande = this.findCommandeByNum(numCommande);
+        commande.setStatut("CommandeValidée");
+        return this.edit(commande);
     }
     
 }

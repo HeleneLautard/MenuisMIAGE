@@ -50,7 +50,7 @@ public class Commande implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "MONTANT")
-    private float montant;
+    private double montant;
     @Basic(optional = false)
     @NotNull
     @Column(name = "STATUT")
@@ -73,7 +73,7 @@ public class Commande implements Serializable {
         this.numcommande = numcommande;
     }
 
-    public Commande(String cotes, float montant, int keynumaffaire, Menuiserie menuis, int numClient) {
+    public Commande(String cotes, double montant, int keynumaffaire, Menuiserie menuis, int numClient) {
         this.cotes = cotes;
         this.montant = montant;
         this.keynumaffaire = keynumaffaire;
@@ -106,11 +106,11 @@ public class Commande implements Serializable {
         this.cotes = cotes;
     }
 
-    public float getMontant() {
+    public double getMontant() {
         return montant;
     }
 
-    public void setMontant(float montant) {
+    public void setMontant(double montant) {
         this.montant = montant;
     }
 

@@ -73,8 +73,15 @@ public class AffaireResource {
      */
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public void putJson(@PathParam("idAffaire") String idAffaire, String content) throws AffaireNotFoundException, WrongTotalAmountException {
-        this.serviceAffaire.validerCommande(idAffaire, content);
+    public Response putJson(@PathParam("idAffaire") String idAffaire, String content) throws AffaireNotFoundException, WrongTotalAmountException {
+        try {
+            this.serviceAffaire.validerCommande(idAffaire, content);
+            return Response.ok().build();
+        } catch (AffaireNotFoundException | WrongTotalAmountException ex){
+            return Response.status(Response.Status.BAD_REQUEST)
+                    .entity(ex.getMessage())
+                    .build();
+        }
     }
 
     /**

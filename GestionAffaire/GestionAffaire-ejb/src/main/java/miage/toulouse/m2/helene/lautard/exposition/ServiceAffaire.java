@@ -57,6 +57,7 @@ public class ServiceAffaire implements ServiceAffaireLocal {
     @Override
     public void validerCommande(String numAffaire, String content) throws AffaireNotFoundException, WrongTotalAmountException {
         ChequesCommandeDTO cheques = this.gson.fromJson(content, ChequesCommandeDTO.class);
+        System.out.println(cheques.toString());
         this.gestionAffaire.validerCommande(Integer.parseInt(numAffaire), cheques.getMontantCheque1(), cheques.getMontantCheque2());
     }
 

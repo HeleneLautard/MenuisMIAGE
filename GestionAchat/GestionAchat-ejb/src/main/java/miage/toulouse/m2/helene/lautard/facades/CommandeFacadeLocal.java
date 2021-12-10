@@ -19,7 +19,7 @@ public interface CommandeFacadeLocal {
 
     Commande create(Commande commande);
 
-    void edit(Commande commande);
+    Commande edit(Commande commande);
 
     void remove(Commande commande);
 
@@ -47,5 +47,12 @@ public interface CommandeFacadeLocal {
      * @return Commande
      */
     Commande findCommandeByNum(int numCommande);
+    
+    /**
+     * Valider la commande
+     * @param numCommande numéro de la commande
+     * @return  Commande MAJ
+     */
+    Commande validerCommande(int numCommande);
     
 }

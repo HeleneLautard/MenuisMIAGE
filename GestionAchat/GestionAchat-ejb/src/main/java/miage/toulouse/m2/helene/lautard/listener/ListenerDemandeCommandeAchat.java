@@ -71,6 +71,7 @@ public class ListenerDemandeCommandeAchat implements MessageListener {
 
     @Override
     public void onMessage(Message message) {
+        System.out.println("coucou");
         if (message instanceof ObjectMessage) {
             try {
                 ObjectMessage msg = (ObjectMessage) message;

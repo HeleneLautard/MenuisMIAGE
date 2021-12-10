@@ -64,7 +64,7 @@ public interface GestionAchatLocal {
      * @param montant2 montant du second chèque
      * @throws WrongTotalAmountException 
      */
-    void checkTotalAmount(Commande commande, float montant1, float montant2) throws WrongTotalAmountException;
+    void checkTotalAmount(Commande commande, double montant1, double montant2) throws WrongTotalAmountException;
     
     /**
      * Passer une commande de menuiserie auprès du fournisseur

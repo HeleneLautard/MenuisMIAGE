@@ -30,7 +30,7 @@ public class ChequeFacade extends AbstractFacade<Cheque> implements ChequeFacade
     }
 
     @Override
-    public Cheque creerCheque(float montant, String rangencaissement, int keynumaffaire) {
+    public Cheque creerCheque(double montant, String rangencaissement, int keynumaffaire) {
         Cheque cheque = new Cheque(montant, rangencaissement, keynumaffaire);
         return this.create(cheque);
     }

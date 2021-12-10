@@ -32,8 +32,12 @@ public abstract class AbstractFacade<T> {
         return this.find(id);
     }
 
-    public void edit(T entity) {
+    public T edit(T entity) {
         getEntityManager().merge(entity);
+        Object id = getEntityManager().getEntityManagerFactory().getPersistenceUnitUtil().getIdentifier(entity);
+        System.out.println("Mise à jour de l'entité de type " + entity.getClass().getSimpleName());
+        System.out.println("\t " + entity.toString());
+        return this.find(id);
     }
 
     public void remove(T entity) {

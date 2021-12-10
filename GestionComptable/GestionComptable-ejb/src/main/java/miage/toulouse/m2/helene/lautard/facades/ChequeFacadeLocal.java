@@ -37,5 +37,5 @@ public interface ChequeFacadeLocal {
      * @param keynumaffaire numéro de l'affaire concernée 
      * @return Cheque
      */
-    Cheque creerCheque(float montant, String rangencaissement, int keynumaffaire);
+    Cheque creerCheque(double montant, String rangencaissement, int keynumaffaire);
 }

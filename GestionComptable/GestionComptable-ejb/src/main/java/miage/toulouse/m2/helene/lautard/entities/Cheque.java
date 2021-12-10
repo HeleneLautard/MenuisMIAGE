@@ -44,7 +44,7 @@ public class Cheque implements Serializable {
     @Basic(optional = false)
     @NotNull
     @Column(name = "MONTANT")
-    private float montant;
+    private double montant;
     @Basic(optional = false)
     @NotNull
     @Size(min = 1, max = 255)
@@ -67,7 +67,7 @@ public class Cheque implements Serializable {
         this.numcheque = numcheque;
     }
 
-    public Cheque(float montant, String rangencaissement, int keynumaffaire) {
+    public Cheque(double montant, String rangencaissement, int keynumaffaire) {
         this.montant = montant;
         this.rangencaissement = rangencaissement;
         this.keynumaffaire = keynumaffaire;
@@ -81,11 +81,11 @@ public class Cheque implements Serializable {
         this.numcheque = numcheque;
     }
 
-    public float getMontant() {
+    public double getMontant() {
         return montant;
     }
 
-    public void setMontant(float montant) {
+    public void setMontant(double montant) {
         this.montant = montant;
     }
 

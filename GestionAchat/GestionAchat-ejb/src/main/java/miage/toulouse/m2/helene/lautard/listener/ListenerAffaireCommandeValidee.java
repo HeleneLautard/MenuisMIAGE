@@ -23,6 +23,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import miage.toulouse.m2.helene.lautard.entities.Commande;
+import miage.toulouse.m2.helene.lautard.facades.CommandeFacadeLocal;
 import miage.toulouse.m2.helene.lautard.metier.GestionAchatLocal;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.AffaireDTO;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommandeNotFoundException;
@@ -44,8 +45,11 @@ import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.Wron
 public class ListenerAffaireCommandeValidee implements MessageListener {
 
     @EJB
-    private GestionAchatLocal gestionAchat;
+    private CommandeFacadeLocal commandeFacade;
 
+    @EJB
+    private GestionAchatLocal gestionAchat;
+    
     private Context context = null;
     private ConnectionFactory factory = null;
     private Connection connection = null;
@@ -90,10 +94,10 @@ public class ListenerAffaireCommandeValidee implements MessageListener {
                 AffaireDTO aff = (AffaireDTO) msg.getObject();
                 int numCommande = aff.getNumCommande();
                 Commande commande = this.gestionAchat.findCommande(numCommande);
-                this.gestionAchat.checkTotalAmount(commande, aff.getMontant1(), aff.getMontant2());
+                //this.gestionAchat.checkTotalAmount(commande, aff.getMontant1(), aff.getMontant2());
                 // Modification du statut de la commande 
-                commande.setStatut("validée");
-            } catch (JMSException | CommandeNotFoundException | WrongTotalAmountException ex) {
+                this.commandeFacade.validerCommande(numCommande);
+            } catch (JMSException | CommandeNotFoundException ex) {
                 Logger.getLogger(ListenerAffaireCommandeValidee.class.getName()).log(Level.SEVERE, null, ex);
             }
         } else if (message != null) {

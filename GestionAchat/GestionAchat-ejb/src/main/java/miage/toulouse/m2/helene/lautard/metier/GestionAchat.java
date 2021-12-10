@@ -87,9 +87,10 @@ public class GestionAchat implements GestionAchatLocal {
     }
 
     @Override
-    public void checkTotalAmount(Commande commande, float montant1, float montant2) throws WrongTotalAmountException {
-        float total = commande.getMontant();
-        if(montant1 + montant2 != total){
+    public void checkTotalAmount(Commande commande, double montant1, double montant2) throws WrongTotalAmountException {
+        double total = commande.getMontant();
+        double sum = (double) montant1 + montant2;
+        if(sum != total){
             throw new WrongTotalAmountException();
         }
     }

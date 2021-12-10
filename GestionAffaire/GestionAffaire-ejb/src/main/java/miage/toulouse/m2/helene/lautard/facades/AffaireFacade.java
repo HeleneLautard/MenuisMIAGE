@@ -82,6 +82,13 @@ public class AffaireFacade extends AbstractFacade<Affaire> implements AffaireFac
                 .getResultList();
         return res.get(0);
     }
+
+    @Override
+    public Affaire validerCommande(Affaire affaire) {
+        affaire.setStatut("Commande validée");
+        this.edit(affaire);
+        return affaire;
+    }
     
     
 }

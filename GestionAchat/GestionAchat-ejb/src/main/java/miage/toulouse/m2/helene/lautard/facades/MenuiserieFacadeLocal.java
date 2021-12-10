@@ -18,7 +18,7 @@ public interface MenuiserieFacadeLocal {
 
     Menuiserie create(Menuiserie menuiserie);
 
-    void edit(Menuiserie menuiserie);
+    Menuiserie edit(Menuiserie menuiserie);
 
     void remove(Menuiserie menuiserie);
 
