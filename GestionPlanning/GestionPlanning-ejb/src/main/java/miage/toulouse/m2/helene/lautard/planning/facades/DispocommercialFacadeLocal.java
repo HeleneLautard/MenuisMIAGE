@@ -9,6 +9,7 @@ import java.util.List;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.planning.entities.Calendrier;
 import miage.toulouse.m2.helene.lautard.planning.entities.Dispocommercial;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CalendrierNotFoundException;
 
 /**
  *
@@ -41,18 +42,24 @@ public interface DispocommercialFacadeLocal {
     
     /**
      * Réserver un créenau dans le planning d'un commercial
-     * @param numCommercial numéro d'un commercial
-     * @param creneau creneau dans le calendrier
-     * @param numAffaire numéro de l'affaire concernée par le RDV
-     * @param numClient numéro du client concerné par l'affaire
+     * @param dispo dispoCommercial à mettre à jour
+     * @param numAffaire affaire concernée par le rdv bloqué
      * @return DispoCommercial
      */
-    Dispocommercial bloquerCreneauCommercial(int numCommercial, Calendrier creneau, int numAffaire, int numClient);
+    Dispocommercial bloquerCreneauCommercial(Dispocommercial dispo, int numAffaire);
     
     /**
      * Récupérer l'ensemble des créneaux disponible pour un RDV commercial
      * @return Liste de créneaux disponibles
      */
     List<Dispocommercial> findCreneauxDispoCom();
+    
+    /**
+     * Recherche une dispo commercial selon le numéro du commercial et l'id du calendrier
+     * @param numCommercial numéro d'identification du commercial
+     * @param numCreneau numero d'identification du calendrier
+     * @return Dispocommercial
+     */
+    Dispocommercial findDispoByCommercialCreneau(int numCommercial, int numCreneau);
     
 }

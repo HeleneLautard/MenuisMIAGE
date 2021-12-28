@@ -7,12 +7,17 @@ package miage.toulouse.m2.helene.lautard.planning.metier;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import miage.toulouse.m2.helene.lautard.planning.entities.Calendrier;
 import miage.toulouse.m2.helene.lautard.planning.entities.Dispocommercial;
 import miage.toulouse.m2.helene.lautard.planning.facades.CalendrierFacadeLocal;
 import miage.toulouse.m2.helene.lautard.planning.facades.DispocommercialFacadeLocal;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CalendrierNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommercialNotAvailableException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CreneauNotFoundException;
 
 /**
  *
@@ -35,6 +40,14 @@ public class GestionPlanning implements GestionPlanningLocal {
     public Calendrier creerCreneauCalendrier(Date dateHeureDeb, Date dateHeureFin) {
         return this.calendrierFacade.creerCreneauCalendrier(dateHeureDeb, dateHeureFin);
     }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<Calendrier> getAllCreneauxCalendrier() {
+        return this.calendrierFacade.findAll();
+    }
 
     /**
      * {@inheritDoc}
@@ -48,8 +61,21 @@ public class GestionPlanning implements GestionPlanningLocal {
      * {@inheritDoc}
      */
     @Override
-    public Dispocommercial bloquerCreneauCommercial(int numCommercial, Calendrier creneau, int numAffaire, int numClient) {
-        return this.dispocommercialFacade.bloquerCreneauCommercial(numCommercial, creneau, numAffaire, numClient);
+    public Dispocommercial bloquerCreneauCommercial(int numCommercial, int numCreneau, int numAffaire) throws CalendrierNotFoundException, CreneauNotFoundException, CommercialNotAvailableException {
+        // Chercher le créneau du calendrier correspondant 
+        Calendrier creneau = this.calendrierFacade.findCreneauByNum(numCreneau);
+        if(creneau == null){
+            throw new CalendrierNotFoundException();
+        }
+        // Vérifier la combinaison (créneau, commercial, dispo)
+        Dispocommercial dispoCom;
+        try {
+            dispoCom = this.checkCreneauDispo(numCommercial, numCreneau);
+        } catch (CreneauNotFoundException ex) {
+            throw ex;
+        }
+        // Bloquer le créneau
+        return this.dispocommercialFacade.bloquerCreneauCommercial(dispoCom, numAffaire);
     }
 
     /**
@@ -57,7 +83,19 @@ public class GestionPlanning implements GestionPlanningLocal {
      */
     @Override
     public List<Dispocommercial> findCreneauxDispoCom() {
-        return this.findCreneauxDispoCom();
+        return this.dispocommercialFacade.findCreneauxDispoCom();
     }
 
+    private Dispocommercial checkCreneauDispo(int numCommercial, int numCreneau) throws CreneauNotFoundException, CommercialNotAvailableException {
+        // Get dispo selon numComercial et numCreneau 
+        Dispocommercial dispo = this.dispocommercialFacade.findDispoByCommercialCreneau(numCommercial, numCreneau);
+        if(dispo == null){
+            throw new CreneauNotFoundException();
+        }
+        // Vérifier dispo du créneau
+        if(dispo.getStatut()==false){
+            throw new CommercialNotAvailableException();
+        }
+        return dispo;
+    }
 }

@@ -6,6 +6,7 @@
 package miage.toulouse.m2.helene.lautard.planning.facades;
 
 import java.util.Date;
+import java.util.List;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -38,6 +39,18 @@ public class CalendrierFacade extends AbstractFacade<Calendrier> implements Cale
     public Calendrier creerCreneauCalendrier(Date dateHeureDeb, Date dateHeureFin) {
         Calendrier calendrier = new Calendrier(dateHeureDeb, dateHeureFin);
         return this.create(calendrier);
+    }
+
+    /**
+     * 
+     * {@inheritDoc}
+     */
+    @Override
+    public Calendrier findCreneauByNum(int numCreneau) {
+        List<Calendrier> res = this.em.createNamedQuery("Calendrier.findByIdcalendrier")
+                .setParameter("idcalendrier", numCreneau)
+                .getResultList();
+        return res.get(0);
     }
     
 }

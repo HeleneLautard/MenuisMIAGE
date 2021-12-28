@@ -10,6 +10,9 @@ import java.util.List;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.planning.entities.Calendrier;
 import miage.toulouse.m2.helene.lautard.planning.entities.Dispocommercial;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CalendrierNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommercialNotAvailableException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CreneauNotFoundException;
 
 /**
  *
@@ -34,15 +37,21 @@ public interface GestionPlanningLocal {
      */
     Dispocommercial creerDispoCommercial(int numCommercial, Calendrier creneau);
     
+    /*
+    *Renvoie la liste de tous les créneaux du calendrier
+    */
+    List<Calendrier> getAllCreneauxCalendrier();
+    
     /**
      * Réserver un créenau dans le planning des commerciaux
      * @param numCommercial numéro du commercial
-     * @param creneau créneau du calendrier
+     * @param numCreneau créneau du calendrier
      * @param numAffaire numéro de l'affaire
-     * @param numClient numéro du client
      * @return Dispocommercial
+     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CalendrierNotFoundException
+     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CreneauNotFoundException
      */
-    Dispocommercial bloquerCreneauCommercial(int numCommercial, Calendrier creneau, int numAffaire, int numClient);
+    Dispocommercial bloquerCreneauCommercial(int numCommercial, int numCreneau, int numAffaire) throws CalendrierNotFoundException, CreneauNotFoundException, CommercialNotAvailableException;
     
     /**
      * Récupérer tous les créneaux disponibles pour les commerciaux

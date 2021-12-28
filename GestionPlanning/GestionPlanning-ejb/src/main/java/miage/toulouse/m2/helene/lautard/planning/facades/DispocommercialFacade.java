@@ -6,6 +6,7 @@
 package miage.toulouse.m2.helene.lautard.planning.facades;
 
 import java.util.List;
+import javax.ejb.EJB;
 import javax.ejb.Stateless;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -19,9 +20,14 @@ import miage.toulouse.m2.helene.lautard.planning.entities.Dispocommercial;
 @Stateless
 public class DispocommercialFacade extends AbstractFacade<Dispocommercial> implements DispocommercialFacadeLocal {
 
+    @EJB
+    private CalendrierFacadeLocal calendrierFacade;
+
     @PersistenceContext(unitName = "miage.toulouse.m2.helene.lautard_GestionPlanning-ejb_ejb_1.0PU")
     private EntityManager em;
 
+    
+    
     @Override
     protected EntityManager getEntityManager() {
         return em;
@@ -39,13 +45,28 @@ public class DispocommercialFacade extends AbstractFacade<Dispocommercial> imple
     }
 
     @Override
-    public Dispocommercial bloquerCreneauCommercial(int numCommercial, Calendrier creneau, int numAffaire, int numClient) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public Dispocommercial bloquerCreneauCommercial(Dispocommercial dispo, int numAffaire)  {
+        dispo.setStatut(false);
+        dispo.setNumaffaire(numAffaire);
+        this.edit(dispo);
+        return dispo;
     }
 
     @Override
     public List<Dispocommercial> findCreneauxDispoCom() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        List<Dispocommercial> result = this.em.createNamedQuery("Dispocommercial.findByStatut")
+                .setParameter("statut", true)
+                .getResultList();
+        return result;
+    }
+
+    @Override
+    public Dispocommercial findDispoByCommercialCreneau(int numCommercial, int numCreneau) {
+        List<Dispocommercial> result = this.em.createNamedQuery("Dispocommercial.findByNumCommercialIdCalendrier")
+                .setParameter("idcalendrier", numCreneau)
+                .setParameter("numcommercial", numCommercial)
+                .getResultList();
+        return result.get(0);
     }
     
 }

@@ -39,4 +39,11 @@ public interface CalendrierFacadeLocal {
      */
     Calendrier creerCreneauCalendrier(Date dateHeureDeb, Date dateHeureFin);
     
+    /**
+     * Récupère l'entité calendrier asociée au numéro passé en paramètre
+     * @param numCreneau numéro du créneau recherché
+     * @return Calendrier
+     */
+    Calendrier findCreneauByNum(int numCreneau);
+    
 }
