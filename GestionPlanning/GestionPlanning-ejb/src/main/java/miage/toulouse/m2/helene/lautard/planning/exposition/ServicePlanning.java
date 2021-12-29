@@ -26,11 +26,10 @@ public class ServicePlanning implements ServicePlanningLocal {
 
     private Gson gson;
 
-    public ServicePlanning() {
-    }
+    
 
-    public ServicePlanning(Gson gson) {
-        this.gson = gson;
+    public ServicePlanning() {
+        this.gson = new Gson();
     }
 
     /**
@@ -38,6 +37,7 @@ public class ServicePlanning implements ServicePlanningLocal {
      */
     @Override
     public String findCreneauxDispoCom() {
+        System.out.println(this.gestionPlanning.findCreneauxDispoCom());
         return this.gson.toJson(this.gestionPlanning.findCreneauxDispoCom());
     }
 

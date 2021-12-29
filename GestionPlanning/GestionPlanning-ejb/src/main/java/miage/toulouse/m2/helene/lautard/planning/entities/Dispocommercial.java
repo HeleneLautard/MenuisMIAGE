@@ -32,7 +32,7 @@ import javax.xml.bind.annotation.XmlRootElement;
     , @NamedQuery(name = "Dispocommercial.findByIddispocommercial", query = "SELECT d FROM Dispocommercial d WHERE d.iddispocommercial = :iddispocommercial")
     , @NamedQuery(name = "Dispocommercial.findByNumCommercialIdCalendrier", query = "SELECT d FROM Dispocommercial d WHERE d.numcommercial = :numcommercial AND d.calendrieridcalendrier = :idcalendrier")
     , @NamedQuery(name = "Dispocommercial.findByNumcommercial", query = "SELECT d FROM Dispocommercial d WHERE d.numcommercial = :numcommercial")
-    , @NamedQuery(name = "Dispocommercial.findByStatut", query = "SELECT d FROM Dispocommercial d WHERE d.statut = :statut")
+    , @NamedQuery(name = "Dispocommercial.findByStatut", query = "SELECT d FROM Dispocommercial d JOIN Calendrier c ON d.calendrieridcalendrier = c WHERE d.statut = :statut")
     , @NamedQuery(name = "Dispocommercial.findByNumaffaire", query = "SELECT d FROM Dispocommercial d WHERE d.numaffaire = :numaffaire")})
 public class Dispocommercial implements Serializable {
 

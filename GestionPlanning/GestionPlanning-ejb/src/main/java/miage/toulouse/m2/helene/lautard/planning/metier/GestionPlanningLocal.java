@@ -10,6 +10,7 @@ import java.util.List;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.planning.entities.Calendrier;
 import miage.toulouse.m2.helene.lautard.planning.entities.Dispocommercial;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.PlanningCommercialDTO;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CalendrierNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommercialNotAvailableException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CreneauNotFoundException;
@@ -57,6 +58,6 @@ public interface GestionPlanningLocal {
      * Récupérer tous les créneaux disponibles pour les commerciaux
      * @return Liste de Dispocommercial
      */
-    List<Dispocommercial> findCreneauxDispoCom();
+    List<PlanningCommercialDTO> findCreneauxDispoCom();
     
 }

@@ -5,6 +5,7 @@
  */
 package miage.toulouse.m2.helene.lautard.planning.metier;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
@@ -15,6 +16,7 @@ import miage.toulouse.m2.helene.lautard.planning.entities.Calendrier;
 import miage.toulouse.m2.helene.lautard.planning.entities.Dispocommercial;
 import miage.toulouse.m2.helene.lautard.planning.facades.CalendrierFacadeLocal;
 import miage.toulouse.m2.helene.lautard.planning.facades.DispocommercialFacadeLocal;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.PlanningCommercialDTO;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CalendrierNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CommercialNotAvailableException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CreneauNotFoundException;
@@ -82,8 +84,14 @@ public class GestionPlanning implements GestionPlanningLocal {
      * {@inheritDoc}
      */
     @Override
-    public List<Dispocommercial> findCreneauxDispoCom() {
-        return this.dispocommercialFacade.findCreneauxDispoCom();
+    public List<PlanningCommercialDTO> findCreneauxDispoCom() {
+        List<Dispocommercial> listeDispo = this.dispocommercialFacade.findCreneauxDispoCom();
+        List<PlanningCommercialDTO> res = new ArrayList();
+        for(Dispocommercial d : listeDispo){
+            PlanningCommercialDTO newDTO = new PlanningCommercialDTO(d.getNumcommercial(), d.getCalendrieridcalendrier().getDateheuredeb(), d.getCalendrieridcalendrier().getDateheurefin(), d.getStatut());
+            res.add(newDTO);
+        }
+        return res;
     }
 
     /**
