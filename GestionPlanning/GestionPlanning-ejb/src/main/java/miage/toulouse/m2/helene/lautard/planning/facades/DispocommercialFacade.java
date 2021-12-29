@@ -80,5 +80,13 @@ public class DispocommercialFacade extends AbstractFacade<Dispocommercial> imple
                 .getResultList();
         return result.get(0);
     }
+
+    @Override
+    public List<Dispocommercial> findCreneauxCom(int idCommercial) {
+        List<Dispocommercial> result = this.em.createNamedQuery("Dispocommercial.findByNumcommercial")
+                .setParameter("numcommercial", idCommercial)
+                .getResultList();
+        return result;
+    }
     
 }

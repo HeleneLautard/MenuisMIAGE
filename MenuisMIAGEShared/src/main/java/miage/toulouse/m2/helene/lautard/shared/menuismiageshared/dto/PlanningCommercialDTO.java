@@ -15,13 +15,15 @@ import java.util.Date;
 public class PlanningCommercialDTO implements Serializable {
     
     int idCommercial;
+    int refCalendrier;
     Date dateHeureDeb;
     Date dateHeureFin;
     boolean dispo;
     int numAffaire;
 
-    public PlanningCommercialDTO(int idCommercial, Date dateHeureDeb, Date dateHeureFin, boolean dispo) {
+    public PlanningCommercialDTO(int idCommercial,int refCalendrier, Date dateHeureDeb, Date dateHeureFin, boolean dispo) {
         this.idCommercial = idCommercial;
+        this.refCalendrier = refCalendrier;
         this.dateHeureDeb = dateHeureDeb;
         this.dateHeureFin = dateHeureFin;
         this.dispo = dispo;
@@ -43,10 +45,11 @@ public class PlanningCommercialDTO implements Serializable {
         return dispo;
     }
 
-    public int getNumAffaire() {
-        return numAffaire;
+    public void setNumAffaire(int numAffaire) {
+        this.numAffaire = numAffaire;
     }
 
+    
     @Override
     public String toString() {
         return "PlanningCommercialDTO{" + "idCommercial=" + idCommercial + ", dateHeureDeb=" + dateHeureDeb + ", dateHeureFin=" + dateHeureFin + ", dispo=" + dispo + '}';

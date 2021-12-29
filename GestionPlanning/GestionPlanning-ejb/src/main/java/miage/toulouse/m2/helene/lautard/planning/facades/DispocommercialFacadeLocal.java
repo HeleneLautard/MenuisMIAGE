@@ -9,8 +9,6 @@ import java.util.List;
 import javax.ejb.Local;
 import miage.toulouse.m2.helene.lautard.planning.entities.Calendrier;
 import miage.toulouse.m2.helene.lautard.planning.entities.Dispocommercial;
-import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.CalendrierNotFoundException;
-
 /**
  *
  * @author Hélène
@@ -53,6 +51,13 @@ public interface DispocommercialFacadeLocal {
      * @return Liste de créneaux disponibles
      */
     List<Dispocommercial> findCreneauxDispoCom();
+    
+    /**
+     * Récupère le planning du jour pour un commercial donné
+     * @param idCommercial id du commercial dont on cherche le planning
+     * @return Liste de créneaux
+     */
+    List<Dispocommercial> findCreneauxCom(int idCommercial);
     
     /**
      * Recherche une dispo commercial selon le numéro du commercial et l'id du calendrier

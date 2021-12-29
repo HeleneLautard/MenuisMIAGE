@@ -24,6 +24,13 @@ public interface ServicePlanningLocal {
     public String findCreneauxDispoCom();
     
     /**
+     * Recherche du planning pour un commercial donné
+     * @param idCommercial nuémro du commercial dont on cherche le planning
+     * @return  ensemble des créneaux de son planning
+     */
+    public String findCreneauxCom(int idCommercial);
+    
+    /**
      * Réserver un créneau dans le planning pour un RDV Commercial
      * @param content contenu de la requête REST
      * @param idCommercial

@@ -37,7 +37,6 @@ public class ServicePlanning implements ServicePlanningLocal {
      */
     @Override
     public String findCreneauxDispoCom() {
-        System.out.println(this.gestionPlanning.findCreneauxDispoCom());
         return this.gson.toJson(this.gestionPlanning.findCreneauxDispoCom());
     }
 
@@ -52,6 +51,14 @@ public class ServicePlanning implements ServicePlanningLocal {
         } catch (CalendrierNotFoundException | CreneauNotFoundException | CommercialNotAvailableException ex) {
             throw ex;
         }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String findCreneauxCom(int idCommercial) {
+        return this.gson.toJson(this.gestionPlanning.findCreneauxCom(idCommercial));
     }
 
 }

@@ -88,7 +88,24 @@ public class GestionPlanning implements GestionPlanningLocal {
         List<Dispocommercial> listeDispo = this.dispocommercialFacade.findCreneauxDispoCom();
         List<PlanningCommercialDTO> res = new ArrayList();
         for(Dispocommercial d : listeDispo){
-            PlanningCommercialDTO newDTO = new PlanningCommercialDTO(d.getNumcommercial(), d.getCalendrieridcalendrier().getDateheuredeb(), d.getCalendrieridcalendrier().getDateheurefin(), d.getStatut());
+            PlanningCommercialDTO newDTO = new PlanningCommercialDTO(d.getNumcommercial(),d.getCalendrieridcalendrier().getIdcalendrier(), d.getCalendrieridcalendrier().getDateheuredeb(), d.getCalendrieridcalendrier().getDateheurefin(), d.getStatut());
+            res.add(newDTO);
+        }
+        return res;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public List<PlanningCommercialDTO> findCreneauxCom(int numCommercial) {
+        List<Dispocommercial> listCreneaux = this.dispocommercialFacade.findCreneauxCom(numCommercial);
+        List<PlanningCommercialDTO> res = new ArrayList();
+        for(Dispocommercial d : listCreneaux){
+            PlanningCommercialDTO newDTO = new PlanningCommercialDTO(d.getNumcommercial(),d.getCalendrieridcalendrier().getIdcalendrier(), d.getCalendrieridcalendrier().getDateheuredeb(), d.getCalendrieridcalendrier().getDateheurefin(), d.getStatut());
+            if(d.getNumaffaire() != null){
+                newDTO.setNumAffaire(d.getNumaffaire());
+            }
             res.add(newDTO);
         }
         return res;
@@ -114,4 +131,5 @@ public class GestionPlanning implements GestionPlanningLocal {
         }
         return dispo;
     }
+
 }

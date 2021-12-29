@@ -60,4 +60,11 @@ public interface GestionPlanningLocal {
      */
     List<PlanningCommercialDTO> findCreneauxDispoCom();
     
+    
+    /**
+     * Recherche du planning d'un commercial
+     * @param numCommercial numéro du commercial recherché
+     * @return Liste des créneaux
+     */
+    List<PlanningCommercialDTO> findCreneauxCom(int numCommercial);
 }
