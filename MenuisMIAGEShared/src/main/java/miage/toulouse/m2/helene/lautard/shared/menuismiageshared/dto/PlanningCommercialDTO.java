@@ -49,7 +49,7 @@ public class PlanningCommercialDTO implements Serializable {
 
     @Override
     public String toString() {
-        return "PlanningCommercialDTO{" + "idCommercial=" + idCommercial + ", dateHeureDeb=" + dateHeureDeb + ", dateHeureFin=" + dateHeureFin + ", dispo=" + dispo + ", numAffaire=" + numAffaire + '}';
+        return "PlanningCommercialDTO{" + "idCommercial=" + idCommercial + ", dateHeureDeb=" + dateHeureDeb + ", dateHeureFin=" + dateHeureFin + ", dispo=" + dispo + '}';
     }
     
     
