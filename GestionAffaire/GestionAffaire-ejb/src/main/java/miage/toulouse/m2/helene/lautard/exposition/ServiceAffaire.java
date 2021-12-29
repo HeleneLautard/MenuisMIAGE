@@ -6,7 +6,6 @@
 package miage.toulouse.m2.helene.lautard.exposition;
 
 import com.google.gson.Gson;
-import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;

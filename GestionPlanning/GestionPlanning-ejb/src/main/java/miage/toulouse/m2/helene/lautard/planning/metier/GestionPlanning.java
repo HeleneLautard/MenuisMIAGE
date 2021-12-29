@@ -71,7 +71,7 @@ public class GestionPlanning implements GestionPlanningLocal {
         Dispocommercial dispoCom;
         try {
             dispoCom = this.checkCreneauDispo(numCommercial, numCreneau);
-        } catch (CreneauNotFoundException ex) {
+        } catch (CreneauNotFoundException | CommercialNotAvailableException ex) {
             throw ex;
         }
         // Bloquer le créneau
@@ -86,6 +86,14 @@ public class GestionPlanning implements GestionPlanningLocal {
         return this.dispocommercialFacade.findCreneauxDispoCom();
     }
 
+    /**
+     * Vérification de la disponibilité d'un créneau
+     * @param numCommercial numéro de commercial recherché
+     * @param numCreneau numéro du créneau du calendrier
+     * @return DispoCommercial
+     * @throws CreneauNotFoundException
+     * @throws CommercialNotAvailableException 
+     */
     private Dispocommercial checkCreneauDispo(int numCommercial, int numCreneau) throws CreneauNotFoundException, CommercialNotAvailableException {
         // Get dispo selon numComercial et numCreneau 
         Dispocommercial dispo = this.dispocommercialFacade.findDispoByCommercialCreneau(numCommercial, numCreneau);

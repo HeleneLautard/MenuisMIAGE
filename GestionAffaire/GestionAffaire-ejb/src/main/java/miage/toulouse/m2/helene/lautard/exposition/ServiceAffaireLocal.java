@@ -10,7 +10,6 @@ import javax.ejb.Local;
 import javax.jms.JMSException;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
-import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
@@ -29,6 +28,7 @@ public interface ServiceAffaireLocal {
      * @return JSON de l'affaire
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException 
      * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException 
+     * @throws javax.jms.JMSException 
      */
     public String renseignerCommande(String content) throws AffaireNotFoundException, WrongClientException, JMSException;
     
@@ -45,6 +45,7 @@ public interface ServiceAffaireLocal {
      * Récupérer une affaire selon son numéro d'identification
      * @param numAffaire numéro de l'affaire
      * @return Affaire
+     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException
      */
     public Affaire findAffaireByNum(int numAffaire) throws AffaireNotFoundException;
 }

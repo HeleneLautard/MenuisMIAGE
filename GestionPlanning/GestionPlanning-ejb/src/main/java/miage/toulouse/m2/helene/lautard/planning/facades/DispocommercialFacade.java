@@ -37,6 +37,9 @@ public class DispocommercialFacade extends AbstractFacade<Dispocommercial> imple
         super(Dispocommercial.class);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dispocommercial creerDispoCommercial(int numCommercial, Calendrier creneau) {
         // Par défaut les créneaux créés sont disponibles
@@ -44,6 +47,9 @@ public class DispocommercialFacade extends AbstractFacade<Dispocommercial> imple
         return this.create(dispoCom);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dispocommercial bloquerCreneauCommercial(Dispocommercial dispo, int numAffaire)  {
         dispo.setStatut(false);
@@ -52,6 +58,9 @@ public class DispocommercialFacade extends AbstractFacade<Dispocommercial> imple
         return dispo;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public List<Dispocommercial> findCreneauxDispoCom() {
         List<Dispocommercial> result = this.em.createNamedQuery("Dispocommercial.findByStatut")
@@ -60,6 +69,9 @@ public class DispocommercialFacade extends AbstractFacade<Dispocommercial> imple
         return result;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Dispocommercial findDispoByCommercialCreneau(int numCommercial, int numCreneau) {
         List<Dispocommercial> result = this.em.createNamedQuery("Dispocommercial.findByNumCommercialIdCalendrier")
