@@ -10,6 +10,7 @@ import javax.ejb.Local;
 import javax.jms.JMSException;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
@@ -20,7 +21,13 @@ import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.Wron
 @Local
 public interface ServiceAffaireLocal {
     
-    
+    /**
+     * Création d'une nouvelle affaire
+     * @param content contenu de la requete
+     * @return JSON de l'affaire créée
+     * @throws miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException
+     */
+    public String creerAffaire(String content) throws ClientNotFoundException;
     
     /**
      * Renseigner une commande pour une affaire

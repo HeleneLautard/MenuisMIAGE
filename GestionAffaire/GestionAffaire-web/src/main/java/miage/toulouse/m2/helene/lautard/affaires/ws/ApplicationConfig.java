@@ -29,6 +29,7 @@ public class ApplicationConfig extends Application {
      * If required, comment out calling this method in getClasses().
      */
     private void addRestResourceClasses(Set<Class<?>> resources) {
-        resources.add(miage.toulouse.m2.helene.lautard.affaires.ws.AffaireResource.class);
+        resources.add(miage.toulouse.m2.helene.lautard.affaires.ws.AffairesResource.class);
+        resources.add(miage.toulouse.m2.helene.lautard.affaires.ws.CommandesResource.class);
     }
 }

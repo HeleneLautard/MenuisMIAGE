@@ -21,6 +21,13 @@ public class AffaireDTO implements Serializable {
     float montant1;
     float montant2;
 
+    public AffaireDTO(String lieuPose, int numClient) {
+        this.lieuPose = lieuPose;
+        this.numClient = numClient;
+    }
+    
+    
+
     public AffaireDTO(int numAffaire, String lieuPose, String statut, int numClient,int numCommande, float montant1, float montant2) {
         this.numAffaire = numAffaire;
         this.lieuPose = lieuPose;

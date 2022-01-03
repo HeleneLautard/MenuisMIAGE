@@ -33,7 +33,7 @@ import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.Wron
  */
 @Path("affaires/{idAffaire}/commande")
 @RequestScoped
-public class AffaireResource {
+public class CommandesResource {
 
     ServiceAffaireLocal serviceAffaire = lookupServiceAffaireLocal();
 
@@ -43,7 +43,7 @@ public class AffaireResource {
     /**
      * Creates a new instance of AffaireResource
      */
-    public AffaireResource() {
+    public CommandesResource() {
     }
 
     @GET
@@ -61,8 +61,8 @@ public class AffaireResource {
     }
 
     /**
-     * PUT method for updating or creating an instance of AffaireResource -
-     * Valider commande
+     * PUT method for updating or creating an instance of CommandesResource -
+ Valider commande
      *
      * @param idAffaire resource URI parameter
      * @param content representation for the resource
@@ -106,8 +106,8 @@ public class AffaireResource {
     }
 
     /**
-     * PUT method for updating or creating an instance of AffaireResource -
-     * Réceptionner commande
+     * PUT method for updating or creating an instance of CommandesResource -
+ Réceptionner commande
      *
      * @param idAffaire resource URI parameter
      * @param idCommande ressource URL parameter

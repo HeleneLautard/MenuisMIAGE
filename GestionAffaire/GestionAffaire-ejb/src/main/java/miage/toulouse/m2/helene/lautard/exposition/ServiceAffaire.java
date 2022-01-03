@@ -13,9 +13,11 @@ import javax.ejb.Stateless;
 import javax.jms.JMSException;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.AffaireDTO;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.ChequesCommandeDTO;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.dto.CommandeDTO;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
+import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongTotalAmountException;
 
@@ -34,6 +36,19 @@ public class ServiceAffaire implements ServiceAffaireLocal {
 
     public ServiceAffaire() {
         this.gson = new Gson();
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    @Override
+    public String creerAffaire(String content) throws ClientNotFoundException{
+        try{
+            AffaireDTO affaire = this.gson.fromJson(content, AffaireDTO.class);
+            return this.gson.toJson(this.gestionAffaire.creerAffaire(affaire.getNumClient(), affaire.getLieuPose()));
+        } catch(ClientNotFoundException ex){
+            throw ex;
+        }
     }
 
     /**

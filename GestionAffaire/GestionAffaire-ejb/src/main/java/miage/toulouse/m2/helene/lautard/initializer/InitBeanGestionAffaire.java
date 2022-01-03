@@ -14,9 +14,7 @@ import javax.ejb.Startup;
 import miage.toulouse.m2.helene.lautard.entities.Affaire;
 import miage.toulouse.m2.helene.lautard.entities.Client;
 import miage.toulouse.m2.helene.lautard.metier.GestionAffaireLocal;
-import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.AffaireNotFoundException;
 import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.ClientNotFoundException;
-import miage.toulouse.m2.helene.lautard.shared.menuismiageshared.exceptions.WrongClientException;
 
 /**
  *
